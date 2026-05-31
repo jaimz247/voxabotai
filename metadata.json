@@ -1,0 +1,6 @@
+{
+  "name": "Voxabot AI",
+  "description": "Voxabot AI gives clinics, hospitals, and labs a 24/7 AI front desk for calls, WhatsApp support, appointment scheduling, notifications, and patient follow-ups.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
