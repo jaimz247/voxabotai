@@ -216,7 +216,7 @@ export default function Navigation({ activeTab, setActiveTab, darkMode, setDarkM
           >
             {!logoLoadError ? (
               <img 
-                src="/logo-horizontal.png" 
+                src="/logo-horizontal.svg" 
                 alt="VOXABOT" 
                 onError={() => setLogoLoadError(true)}
                 className="h-8 md:h-9 w-auto object-contain block dark:opacity-90 dark:brightness-110"
@@ -227,7 +227,7 @@ export default function Navigation({ activeTab, setActiveTab, darkMode, setDarkM
                   <span className="font-display text-base font-black tracking-widest leading-none">V</span>
                 </div>
                 <div>
-                  <span className="font-display text-lg font-black tracking-widest text-[#1A1A1A] dark:text-white flex items-center gap-1.5 uppercase">
+                  <span className="font-display text-lg font-[900] tracking-widest text-[#1A1A1A] dark:text-white flex items-center gap-1.5 uppercase">
                     VOXABOT <span className="text-white font-black text-[9px] tracking-widest px-2 py-0.5 rounded-full bg-[#1A1A1A] dark:bg-white dark:text-[#1A1A1A] shadow-sm">AI</span>
                   </span>
                   <p className="text-[8px] text-[#0052FF] dark:text-blue-400 tracking-[0.15em] font-black uppercase leading-none mt-0.5">Automating Clinical Workflows</p>
@@ -349,19 +349,19 @@ export default function Navigation({ activeTab, setActiveTab, darkMode, setDarkM
                 initial={{ x: '100%', opacity: 1 }}
                 animate={{ x: 0, opacity: 1 }}
                 exit={{ x: '100%', opacity: 1 }}
-                transition={{ type: 'spring', damping: 26, stiffness: 220 }}
+                transition={{ type: 'spring', damping: 28, stiffness: 220, mass: 0.9 }}
                 className="fixed inset-y-0 right-0 z-[150] w-80 max-w-[85vw] h-full bg-white/80 dark:bg-[#0A0A0A]/80 backdrop-blur-[64px] border-l border-black/10 dark:border-white/10 shadow-2xl md:hidden flex flex-col"
               >
                 {/* Drawer Header */}
                 <div className="flex items-center justify-between px-6 py-5 border-b border-black/5 dark:border-white/10 shrink-0">
                   <div className="flex items-center gap-2">
                     <img 
-                      src="/logo-vertical.png" 
+                      src="/logo-vertical.svg" 
                       alt="VB" 
                       onError={(e) => { e.currentTarget.style.display = 'none'; }}
-                      className="h-7 w-7 object-contain"
+                      className="h-7 w-7 object-contain animate-pulse"
                     />
-                    <span className="font-display text-sm font-black tracking-widest text-slate-900 dark:text-white uppercase">
+                    <span className="font-display text-sm font-[900] tracking-widest text-slate-900 dark:text-white uppercase">
                       VOXABOT
                     </span>
                   </div>
