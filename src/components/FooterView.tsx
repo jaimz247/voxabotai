@@ -3,7 +3,9 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Mail, ShieldCheck, HeartPulse, ExternalLink, ArrowRight, MessageSquareCode } from 'lucide-react';
+import { useState } from 'react';
+import { Mail, ShieldCheck, HeartPulse, ExternalLink, ArrowRight, MessageSquareCode, Copy, Check, CheckCircle2 } from 'lucide-react';
+import { motion, AnimatePresence } from 'motion/react';
 import { ActiveTab } from '../types';
 
 interface FooterViewProps {
@@ -12,10 +14,18 @@ interface FooterViewProps {
 
 export default function FooterView({ setActiveTab }: FooterViewProps) {
   const currentYear = new Date().getFullYear();
+  const [copied, setCopied] = useState(false);
 
   const handleNavClick = (tabId: ActiveTab) => {
     setActiveTab(tabId);
     window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
+  const handleCopyContact = () => {
+    const contactInfo = "Voxabot AI Contact Details:\nWhatsApp: +234 814 595 6772\nEmail: teamlead@voxabotai.com\nWebsite: https://voxabotai.com";
+    navigator.clipboard.writeText(contactInfo);
+    setCopied(true);
+    setTimeout(() => setCopied(false), 2000);
   };
 
   return (
@@ -149,6 +159,17 @@ export default function FooterView({ setActiveTab }: FooterViewProps) {
                     <p className="text-sm font-medium text-slate-300">voxabotai.com</p>
                   </div>
                 </div>
+
+                <div className="border-t border-white/5 my-2.5"></div>
+
+                <button
+                  onClick={handleCopyContact}
+                  className="w-full inline-flex items-center justify-center gap-2.5 rounded-xl bg-[#0052FF] hover:bg-blue-600 text-white py-3 text-xs uppercase tracking-tighter font-black btn-heavy transition-all cursor-pointer shadow-md select-none"
+                  id="copy-contact-btn"
+                >
+                  <Copy className="h-4.5 w-4.5 text-white shrink-0" />
+                  <span>Copy Clinic Contact</span>
+                </button>
               </div>
             </div>
           </div>
@@ -174,6 +195,28 @@ export default function FooterView({ setActiveTab }: FooterViewProps) {
           </div>
         </div>
       </div>
+
+      <AnimatePresence>
+        {copied && (
+          <motion.div
+            initial={{ opacity: 0, x: 150, y: 50, scale: 0.9 }}
+            animate={{ opacity: 1, x: 0, y: 0, scale: 1 }}
+            exit={{ opacity: 0, x: 100, scale: 0.95 }}
+            transition={{ type: 'spring', damping: 22, stiffness: 280 }}
+            className="fixed bottom-6 right-6 z-50 flex items-center gap-3.5 bg-slate-900/95 dark:bg-zinc-950/95 backdrop-blur-md border border-emerald-500/40 text-white rounded-2xl p-4 shadow-2xl max-w-sm"
+          >
+            <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-emerald-500/20 text-emerald-400 shrink-0 shadow-lg shadow-emerald-500/10">
+              <CheckCircle2 className="h-5.5 w-5.5 text-emerald-400 animate-bounce" />
+            </div>
+            <div className="text-left font-sans pr-2">
+              <h5 className="text-[11px] font-black uppercase text-emerald-400 tracking-wider">Contact Info Copied!</h5>
+              <p className="text-xs text-slate-200 mt-1 font-semibold leading-relaxed">
+                Clinic and lab partner contact card successfully saved to your clipboard.
+              </p>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </footer>
   );
 }

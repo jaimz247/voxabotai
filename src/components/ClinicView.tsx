@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { 
   Plus, 
@@ -19,6 +19,7 @@ import {
   AlertCircle
 } from 'lucide-react';
 import { SimulatedScenario } from '../types';
+import MapWithDirections from './MapWithDirections';
 
 interface ClinicViewProps {
   onBookDemoClick: () => void;
@@ -28,6 +29,19 @@ export default function ClinicView({ onBookDemoClick }: ClinicViewProps) {
   const [selectedScenario, setSelectedScenario] = useState<string | null>(null);
   const [typingState, setTypingState] = useState(false);
   const [simulatedChat, setSimulatedChat] = useState<{ sender: 'patient' | 'ai' | 'system'; text: string; time: string }[]>([]);
+  const [showSticky, setShowSticky] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      if (window.scrollY > 400) {
+        setShowSticky(true);
+      } else {
+        setShowSticky(false);
+      }
+    };
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
 
   const scenarios: SimulatedScenario[] = [
     {
@@ -206,7 +220,12 @@ export default function ClinicView({ onBookDemoClick }: ClinicViewProps) {
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
           
           {/* Copy Side */}
-          <div className="lg:col-span-12 xl:col-span-7 space-y-6 text-left">
+          <motion.div 
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6 }}
+            className="lg:col-span-12 xl:col-span-7 space-y-6 text-left"
+          >
             <div className="inline-flex items-center gap-1.5 rounded-full border border-black/5 bg-white px-4 py-2 text-[10px] font-bold text-[#0052FF] uppercase tracking-widest leading-none shadow-sm">
               <Sparkles className="h-3.5 w-3.5 shrink-0 text-[#0052FF]" />
               <span>VOXABOT CLINIC FRONT DESK</span>
@@ -234,10 +253,15 @@ export default function ClinicView({ onBookDemoClick }: ClinicViewProps) {
                 “If your clinic misses an outbound enquiry or answers WhatsApp delayed, that patient may simply contact another outpatient provider. Voxabot guarantees 100% immediate connectivity.”
               </p>
             </div>
-          </div>
+          </motion.div>
 
           {/* Interactive Screen Simulator Side */}
-          <div className="lg:col-span-12 xl:col-span-5 relative">
+          <motion.div 
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.2 }}
+            className="lg:col-span-12 xl:col-span-5 relative"
+          >
             <div className="rounded-3xl border border-black/10 bg-white p-6 shadow-xl aspect-[9/16] w-full max-w-[400px] mx-auto flex flex-col justify-between relative overflow-hidden">
               
               {/* Notch */}
@@ -328,7 +352,7 @@ export default function ClinicView({ onBookDemoClick }: ClinicViewProps) {
               </div>
 
             </div>
-          </div>
+          </motion.div>
 
         </div>
       </section>
@@ -432,7 +456,13 @@ export default function ClinicView({ onBookDemoClick }: ClinicViewProps) {
           </div>
 
           {/* safety note clinical integration box */}
-          <div className="mt-16 rounded-3xl border border-rose-200 bg-rose-50/40 p-6 flex items-start gap-4 max-w-4xl mx-auto shadow-sm">
+          <motion.div 
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "-50px" }}
+            transition={{ duration: 0.5 }}
+            className="mt-16 rounded-3xl border border-rose-200 bg-rose-50/40 p-6 flex items-start gap-4 max-w-4xl mx-auto shadow-sm"
+          >
             <AlertCircle className="h-5.5 w-5.5 text-rose-500 shrink-0 mt-0.5" />
             <div>
               <h4 className="font-display text-sm font-extrabold text-rose-950 uppercase tracking-wide">Clinical Safety Protocols Enforced</h4>
@@ -440,10 +470,42 @@ export default function ClinicView({ onBookDemoClick }: ClinicViewProps) {
                 Voxabot Clinic Front Desk supports operational patient queries and general reminders only. It does not diagnose clinical issues, prescribe therapeutic pills, or advise treatment. Medical complaints or urgent diagnostic checkups are securely routed to the physical clinical nurse team instantly.
               </p>
             </div>
+          </motion.div>
+
+          {/* Real-time driving directions and locator map */}
+          <div className="mt-16 pt-16 border-t border-black/5">
+            <MapWithDirections />
           </div>
 
         </div>
       </section>
+
+      {/* Sticky Bottom Call-to-Action Bar */}
+      <AnimatePresence>
+        {showSticky && (
+          <motion.div
+            initial={{ opacity: 0, y: 50, scale: 0.95 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
+            exit={{ opacity: 0, y: 40, scale: 0.95 }}
+            transition={{ type: 'spring', damping: 22, stiffness: 300 }}
+            className="fixed bottom-6 inset-x-4 z-40 max-w-xl mx-auto flex items-center justify-between gap-4 p-4 rounded-2xl bg-white/75 dark:bg-zinc-900/75 backdrop-blur-2xl border border-black/10 dark:border-white/10 shadow-2xl text-slate-900 dark:text-white"
+          >
+            <div className="flex items-center gap-2.5 p-1">
+              <div className="h-2.5 w-2.5 rounded-full bg-[#0052FF]" />
+              <div>
+                <p className="text-[10px] font-black uppercase text-slate-500 dark:text-slate-400 tracking-wider">Clinicians First</p>
+                <p className="text-xs font-bold uppercase tracking-tight">Ready to Automate your Front Desk?</p>
+              </div>
+            </div>
+            <button
+              onClick={onBookDemoClick}
+              className="bg-[#0052FF] hover:bg-blue-600 text-white font-black text-[10px] uppercase tracking-tighter px-5 py-2.5 rounded-xl transition-all shadow-md cursor-pointer select-none shrink-0"
+            >
+              Book Clinic Demo
+            </button>
+          </motion.div>
+        )}
+      </AnimatePresence>
 
     </div>
   );

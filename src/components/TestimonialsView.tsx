@@ -63,18 +63,18 @@ export default function TestimonialsView() {
   const marqueeItems = [...testimonials, ...testimonials, ...testimonials];
 
   return (
-    <section className="py-24 border-t border-black/10 bg-[#FCD34D]/5 overflow-hidden relative" id="testimonials">
+    <section className="py-24 border-t border-black/10 dark:border-white/5 bg-[#FCD34D]/5 dark:bg-[#1A1811]/10 overflow-hidden relative animate-fade-in" id="testimonials">
       <div className="absolute top-0 inset-x-0 h-20 bg-[linear-gradient(to_bottom,rgba(0,82,255,0.01),transparent)]" />
       
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 text-center space-y-4 mb-16">
-        <div className="inline-flex items-center gap-1.5 rounded-full border border-[#0052FF]/10 bg-blue-50 px-4 py-2 text-[10px] font-bold text-[#0052FF] uppercase tracking-widest leading-none shadow-sm">
-          <ShieldCheck className="h-3.5 w-3.5 text-[#0052FF] shrink-0" />
+        <div className="inline-flex items-center gap-1.5 rounded-full border border-[#0052FF]/10 dark:border-white/10 bg-blue-50 dark:bg-blue-950/30 px-4 py-2 text-[10px] font-bold text-[#0052FF] dark:text-blue-400 uppercase tracking-widest leading-none shadow-sm">
+          <ShieldCheck className="h-3.5 w-3.5 text-[#0052FF] dark:text-blue-400 shrink-0" />
           <span>Validated Partner Testimonials</span>
         </div>
-        <h2 className="text-3xl sm:text-4xl md:text-5xl font-black text-[#1A1A1A] uppercase leading-[0.95] heading-inter-heavy">
+        <h2 className="text-3xl sm:text-4xl md:text-5xl font-black text-slate-900 dark:text-white uppercase leading-[0.95] heading-inter-heavy">
           Loved by Clinics &amp; Laboratory Partners
         </h2>
-        <p className="text-slate-600 max-w-2xl mx-auto text-sm sm:text-base leading-relaxed font-semibold">
+        <p className="text-slate-600 dark:text-slate-400 max-w-2xl mx-auto text-sm sm:text-base leading-relaxed font-semibold">
           Discover how modern medical coordinators and pathologists are achieving absolute communication coverage.
         </p>
       </div>
@@ -82,8 +82,8 @@ export default function TestimonialsView() {
       {/* Infinite Horizontal Carousel */}
       <div className="relative w-full flex overflow-x-hidden py-4 select-none">
         {/* Shadow Overlays for depth */}
-        <div className="pointer-events-none absolute inset-y-0 left-0 w-16 md:w-48 bg-gradient-to-r from-brand-dark to-transparent z-10" />
-        <div className="pointer-events-none absolute inset-y-0 right-0 w-16 md:w-48 bg-gradient-to-l from-brand-dark to-transparent z-10" />
+        <div className="pointer-events-none absolute inset-y-0 left-0 w-16 md:w-48 bg-gradient-to-r from-brand-dark dark:from-[#0A0A0A] to-transparent z-10" />
+        <div className="pointer-events-none absolute inset-y-0 right-0 w-16 md:w-48 bg-gradient-to-l from-brand-dark dark:from-[#0A0A0A] to-transparent z-10" />
 
         {/* Carousel Tracks using Framer Motion */}
         <motion.div 
@@ -98,7 +98,7 @@ export default function TestimonialsView() {
           {marqueeItems.map((test, index) => (
             <div 
               key={index}
-              className="w-[340px] md:w-[400px] shrink-0 rounded-3xl border border-black/10 bg-white p-6 md:p-8 flex flex-col justify-between shadow-sm hover:border-[#0052FF]/20 transition-all group"
+              className="w-[340px] md:w-[400px] shrink-0 rounded-3xl border border-black/10 dark:border-white/10 bg-white dark:bg-[#111111] p-6 md:p-8 flex flex-col justify-between shadow-sm hover:border-[#0052FF]/20 dark:hover:border-[#0052FF]/30 transition-all group"
             >
               <div className="space-y-4">
                 <div className="flex items-center justify-between">
@@ -109,28 +109,28 @@ export default function TestimonialsView() {
                   </div>
                   <span className={`text-[9px] font-bold uppercase px-2.5 py-1 rounded-full border leading-none ${
                     test.category === 'Clinic'
-                      ? 'bg-blue-50 border-blue-100 text-[#0052FF]'
-                      : 'bg-emerald-50 border-emerald-100 text-emerald-600'
+                      ? 'bg-blue-50 dark:bg-blue-950/40 border-blue-100 dark:border-blue-900/30 text-[#0052FF] dark:text-blue-400'
+                      : 'bg-emerald-50 dark:bg-emerald-950/40 border-emerald-100 dark:border-emerald-900/30 text-emerald-600 dark:text-emerald-400'
                   }`}>
                     {test.category} partner
                   </span>
                 </div>
                 
-                <p className="text-sm text-slate-700 leading-relaxed font-semibold italic">
+                <p className="text-sm text-slate-700 dark:text-slate-300 leading-relaxed font-semibold italic">
                   “{test.quote}”
                 </p>
               </div>
 
-              <div className="flex items-center gap-4 pt-6 border-t border-black/5 mt-6">
-                <div className="h-10 w-10 rounded-full bg-[#1A1A1A] text-white flex items-center justify-center font-bold text-xs uppercase tracking-wider">
+              <div className="flex items-center gap-4 pt-6 border-t border-black/5 dark:border-white/5 mt-6">
+                <div className="h-10 w-10 rounded-full bg-[#1A1A1A] dark:bg-white text-white dark:text-[#1A1A1A] flex items-center justify-center font-bold text-xs uppercase tracking-wider">
                   {test.avatarText}
                 </div>
-                <div>
-                  <h4 className="font-display text-sm font-extrabold text-[#1A1A1A] leading-tight">
+                <div className="text-left">
+                  <h4 className="font-display text-sm font-extrabold text-slate-900 dark:text-white leading-tight">
                     {test.author}
                   </h4>
-                  <p className="text-[10px] text-slate-500 font-bold uppercase tracking-wider leading-none mt-1">
-                    {test.role} • <span className="text-[#0052FF]">{test.facility}</span>
+                  <p className="text-[10px] text-slate-500 dark:text-slate-400 font-bold uppercase tracking-wider leading-none mt-1">
+                    {test.role} • <span className="text-[#0052FF] dark:text-blue-400">{test.facility}</span>
                   </p>
                 </div>
               </div>

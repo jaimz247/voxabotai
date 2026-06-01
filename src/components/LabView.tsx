@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { 
   Sparkles, 
@@ -26,6 +26,19 @@ export default function LabView({ onBookDemoClick }: LabViewProps) {
   const [selectedScenario, setSelectedScenario] = useState<string | null>(null);
   const [typingState, setTypingState] = useState(false);
   const [simulatedChat, setSimulatedChat] = useState<{ sender: 'patient' | 'ai' | 'system'; text: string; time: string }[]>([]);
+  const [showSticky, setShowSticky] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      if (window.scrollY > 400) {
+        setShowSticky(true);
+      } else {
+        setShowSticky(false);
+      }
+    };
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
 
   const scenarios: SimulatedScenario[] = [
     {
@@ -184,7 +197,12 @@ export default function LabView({ onBookDemoClick }: LabViewProps) {
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
           
           {/* Content side */}
-          <div className="lg:col-span-12 xl:col-span-7 space-y-6 text-left">
+          <motion.div 
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6 }}
+            className="lg:col-span-12 xl:col-span-7 space-y-6 text-left"
+          >
             <div className="inline-flex items-center gap-1.5 rounded-full border border-black/5 bg-white px-4 py-2 text-[10px] font-bold text-[#0052FF] uppercase tracking-widest leading-none shadow-sm">
               <Dna className="h-3.5 w-3.5 shrink-0 animate-pulse text-[#0052FF]" />
               <span>Voxabot Lab Assistant</span>
@@ -212,10 +230,15 @@ export default function LabView({ onBookDemoClick }: LabViewProps) {
                 “Many laboratories receive the same repetitive questions all day—Fasting specs? Prices? Results ready? Voxabot Lab Assistant parses your test catalogue automatically, giving instant answers.”
               </p>
             </div>
-          </div>
+          </motion.div>
 
           {/* Interactive Lab Mobile Simulator */}
-          <div className="lg:col-span-12 xl:col-span-5 relative">
+          <motion.div 
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.2 }}
+            className="lg:col-span-12 xl:col-span-5 relative"
+          >
             <div className="rounded-3xl border border-black/10 bg-white p-6 shadow-xl aspect-[9/16] w-full max-w-[400px] mx-auto flex flex-col justify-between relative overflow-hidden">
               
               {/* Simulator Screen title */}
@@ -306,7 +329,7 @@ export default function LabView({ onBookDemoClick }: LabViewProps) {
               </div>
 
             </div>
-          </div>
+          </motion.div>
 
         </div>
       </section>
@@ -380,7 +403,13 @@ export default function LabView({ onBookDemoClick }: LabViewProps) {
       {/* Safety clinical guidelines note for Pathology */}
       <section className="py-24 border-t border-black/10">
         <div className="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8">
-          <div className="rounded-3xl border border-rose-200 bg-rose-50/40 p-8 flex flex-col sm:flex-row items-start gap-5 shadow-sm">
+          <motion.div 
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "-50px" }}
+            transition={{ duration: 0.5 }}
+            className="rounded-3xl border border-rose-200 bg-rose-50/40 p-8 flex flex-col sm:flex-row items-start gap-5 shadow-sm"
+          >
             <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-rose-100 border border-rose-200 text-rose-500 shrink-0">
               <AlertCircle className="h-6 w-6" />
             </div>
@@ -390,9 +419,36 @@ export default function LabView({ onBookDemoClick }: LabViewProps) {
                 Voxabot Lab Assistant under no circumstances interprets diagnostic, pathology or chemical laboratory results medically. It supports operational communication ONLY—verifying whether a patient’s laboratory file is ready for pick up or emailing. Any questions regarding medical definitions or clinical analysis are routed directly to qualified professionals.
               </p>
             </div>
-          </div>
+          </motion.div>
         </div>
       </section>
+
+      {/* Sticky Bottom Call-to-Action Bar */}
+      <AnimatePresence>
+        {showSticky && (
+          <motion.div
+            initial={{ opacity: 0, y: 50, scale: 0.95 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
+            exit={{ opacity: 0, y: 40, scale: 0.95 }}
+            transition={{ type: 'spring', damping: 22, stiffness: 300 }}
+            className="fixed bottom-6 inset-x-4 z-40 max-w-xl mx-auto flex items-center justify-between gap-4 p-4 rounded-2xl bg-white/75 dark:bg-zinc-900/75 backdrop-blur-2xl border border-black/10 dark:border-white/10 shadow-2xl text-slate-900 dark:text-white"
+          >
+            <div className="flex items-center gap-2.5 p-1">
+              <div className="h-2.5 w-2.5 rounded-full bg-[#0052FF]" />
+              <div>
+                <p className="text-[10px] font-black uppercase text-slate-500 dark:text-slate-400 tracking-wider">Pathology First</p>
+                <p className="text-xs font-bold uppercase tracking-tight">Ready to Automate your Pathology Lab?</p>
+              </div>
+            </div>
+            <button
+              onClick={onBookDemoClick}
+              className="bg-[#0052FF] hover:bg-blue-600 text-white font-black text-[10px] uppercase tracking-tighter px-5 py-2.5 rounded-xl transition-all shadow-md cursor-pointer select-none shrink-0"
+            >
+              Book Lab Demo
+            </button>
+          </motion.div>
+        )}
+      </AnimatePresence>
 
     </div>
   );
