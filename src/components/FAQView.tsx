@@ -118,13 +118,19 @@ export default function FAQView() {
                       initial={{ height: 0, opacity: 0 }}
                       animate={{ height: 'auto', opacity: 1 }}
                       exit={{ height: 0, opacity: 0 }}
-                      transition={{ duration: 0.25, ease: 'easeOut' }}
+                      transition={{ duration: 0.3, ease: 'easeInOut' }}
                     >
-                      <div className="border-t border-black/5 dark:border-white/5 px-6 pb-5 pt-4">
+                      <motion.div 
+                        initial={{ x: -12, opacity: 0 }}
+                        animate={{ x: 0, opacity: 1 }}
+                        exit={{ x: -12, opacity: 0 }}
+                        transition={{ duration: 0.25, ease: 'easeOut', delay: 0.05 }}
+                        className="border-t border-black/5 dark:border-white/5 px-6 pb-5 pt-4"
+                      >
                         <p className="text-sm text-slate-655 dark:text-slate-400 leading-relaxed max-w-3xl">
                           {faq.answer}
                         </p>
-                      </div>
+                      </motion.div>
                     </motion.div>
                   )}
                 </AnimatePresence>

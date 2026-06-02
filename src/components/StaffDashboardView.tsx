@@ -201,6 +201,24 @@ export default function StaffDashboardView() {
   const [leadSearchQuery, setLeadSearchQuery] = useState('');
   const [syncedLeadId, setSyncedLeadId] = useState<string | null>(null);
   const [toastMessage, setToastMessage] = useState<string | null>(null);
+  const [liveMetrics, setLiveMetrics] = useState({
+    avgResponseTime: '0.8s',
+    totalEnquiriesToday: 18,
+  });
+
+  React.useEffect(() => {
+    const timer = setInterval(() => {
+      setLiveMetrics((prev) => {
+        const randomTime = (0.78 + Math.random() * 0.06).toFixed(2);
+        const shouldIncrement = Math.random() > 0.85;
+        return {
+          avgResponseTime: `${randomTime}s`,
+          totalEnquiriesToday: shouldIncrement ? prev.totalEnquiriesToday + 1 : prev.totalEnquiriesToday
+        };
+      });
+    }, 4500);
+    return () => clearInterval(timer);
+  }, []);
 
   const handleRefreshLeads = () => {
     try {
@@ -405,6 +423,65 @@ export default function StaffDashboardView() {
         <p className="text-slate-500 dark:text-slate-400 font-sans font-medium text-sm sm:text-base max-w-3xl leading-relaxed">
           Configure physical appointment workflows, edit triggers, and design conversational templates. Voxabot AI automatically dispatches interactive check-ins on behalf of doctors, alerting nurses if a patient reports elevated pain or requests live escalation.
         </p>
+      </div>
+
+      {/* Live Operational Performance Metrics */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
+        <div className="bg-white dark:bg-[#111111] rounded-2xl border border-black/5 dark:border-white/5 p-5 shadow-sm hover-lift flex items-center justify-between">
+          <div className="space-y-1">
+            <span className="text-[10px] text-slate-400 font-bold uppercase tracking-wider block">Live Average Response Time</span>
+            <div className="flex items-baseline gap-2">
+              <span className="text-3xl font-extrabold text-[#0052FF] dark:text-blue-400 tracking-tight font-display">
+                {liveMetrics.avgResponseTime}
+              </span>
+              <span className="text-[10px] text-emerald-500 font-bold uppercase tracking-widest flex items-center gap-0.5 font-sans">
+                <span className="h-1.5 w-1.5 rounded-full bg-emerald-500 animate-pulse" />
+                Optimal
+              </span>
+            </div>
+          </div>
+          <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-blue-50/50 dark:bg-blue-950/20 border border-blue-100 dark:border-blue-900/30 text-[#0052FF] dark:text-blue-400">
+            <Clock className="h-5.5 w-5.5 animate-spin" style={{ animationDuration: '4s' }} />
+          </div>
+        </div>
+
+        <div className="bg-white dark:bg-[#111111] rounded-2xl border border-black/5 dark:border-white/5 p-5 shadow-sm hover-lift flex items-center justify-between">
+          <div className="space-y-1">
+            <span className="text-[10px] text-slate-400 font-bold uppercase tracking-wider block">Total Enquiries Today</span>
+            <div className="flex items-baseline gap-2">
+              <span className="text-3xl font-extrabold text-slate-900 dark:text-white tracking-tight font-display">
+                {liveMetrics.totalEnquiriesToday}
+              </span>
+              <span className="text-[10px] text-[#0052FF] dark:text-blue-400 font-bold uppercase tracking-widest">
+                +{(demoLeads.length)} Pending review
+              </span>
+            </div>
+          </div>
+          <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-blue-50/50 dark:bg-blue-950/20 border border-blue-100 dark:border-blue-900/30 text-[#0052FF] dark:text-blue-400">
+            <MessageSquare className="h-5.5 w-5.5 animate-bounce" />
+          </div>
+        </div>
+
+        <div className="bg-white dark:bg-[#111111] sm:col-span-2 lg:col-span-1 rounded-2xl border border-black/5 dark:border-white/5 p-5 shadow-sm hover-lift flex items-center justify-between">
+          <div className="space-y-1">
+            <span className="text-[10px] text-slate-400 font-bold uppercase tracking-wider block">Autonomous System Status</span>
+            <div className="flex items-baseline gap-2">
+              <span className="text-3xl font-extrabold text-emerald-500 tracking-tight font-display uppercase">
+                Active
+              </span>
+              <span className="text-[10px] text-slate-400 font-bold uppercase tracking-widest flex items-center gap-1 font-sans">
+                <span className="h-2 w-2 relative flex shrink-0">
+                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+                  <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
+                </span>
+                100% Reliable
+              </span>
+            </div>
+          </div>
+          <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-emerald-50/50 dark:bg-emerald-950/20 border border-emerald-100 dark:border-emerald-900/30 text-emerald-500">
+            <Sparkles className="h-5.5 w-5.5 animate-pulse" />
+          </div>
+        </div>
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
@@ -772,14 +849,29 @@ export default function StaffDashboardView() {
                           type="button"
                           onClick={() => handleTriggerWebhookSync(lead)}
                           disabled={syncedLeadId === lead.id}
-                          className="px-3 py-2 rounded-xl bg-[#0052FF]/10 text-[#0052FF] hover:bg-[#0052FF] hover:text-white transition-all text-[10px] font-black uppercase tracking-wider cursor-pointer"
+                          className="px-3 py-2 rounded-xl bg-[#0052FF]/10 text-[#0052FF] hover:bg-[#0052FF] hover:text-white transition-all text-[10px] font-black uppercase tracking-wider cursor-pointer font-extrabold"
                         >
                           {syncedLeadId === lead.id ? 'Pushing Webhook...' : 'Push Webhook'}
                         </button>
+
+                        <a
+                          href={`https://wa.me/${lead.whatsAppNumber ? lead.whatsAppNumber.replace(/[^0-9]/g, '') : ''}?text=${encodeURIComponent(
+                            `Hello ${lead.fullName}, this is the clinic administrator at Voxabot Healthcare. We received your booking demo request for "${lead.facilityName}" addressing communication challenge: "${lead.mainChallenge}". Let's discuss details regarding your consultation on ${lead.scheduledDate || 'your selected date'} at ${lead.scheduledTime || 'your selected time'}!`
+                          )}`}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="px-3 py-2 rounded-xl bg-emerald-500/10 hover:bg-emerald-600 text-emerald-650 hover:text-white dark:bg-emerald-950/20 dark:text-emerald-450 dark:hover:bg-emerald-600 dark:hover:text-white transition-all text-[10px] font-black uppercase tracking-wider inline-flex items-center gap-1.5"
+                          title="Direct WhatsApp Template Transfer"
+                          id={`export-whats-btn-${lead.id}`}
+                        >
+                          <MessageSquare className="h-3.5 w-3.5 shrink-0" />
+                          <span>WhatsApp Export</span>
+                        </a>
+
                         <button
                           type="button"
                           onClick={() => handleDeleteLead(lead.id)}
-                          className="p-2 rounded-xl bg-slate-50 hover:bg-rose-50 text-slate-400 hover:text-rose-600 border border-black/5 hover:border-rose-100 transition-all cursor-pointer"
+                          className="p-2 rounded-xl bg-slate-50 hover:bg-rose-50 dark:bg-zinc-900 dark:hover:bg-rose-950/50 text-slate-400 hover:text-rose-600 border border-black/5 dark:border-white/5 hover:border-rose-100 dark:hover:border-rose-900 transition-all cursor-pointer"
                           title="Purge lead registration entries"
                         >
                           <Trash2 className="h-3.5 w-3.5 shrink-0" />
