@@ -200,6 +200,7 @@ export default function StaffDashboardView() {
 
   const [leadSearchQuery, setLeadSearchQuery] = useState('');
   const [syncedLeadId, setSyncedLeadId] = useState<string | null>(null);
+  const [toastMessage, setToastMessage] = useState<string | null>(null);
 
   const handleRefreshLeads = () => {
     try {
@@ -228,7 +229,8 @@ export default function StaffDashboardView() {
     // Simulate real webhook push activity to Zapier, Make, custom official email
     setTimeout(() => {
       setSyncedLeadId(null);
-      alert(`[INTEGRATION SIMULATION] Successfully simulated webhook push of ${lead.fullName}'s clinical booking details to Google Calendar, official email alert dispatcher, and practice CRM software.`);
+      setToastMessage(`[INTEGRATION SUCCESS] Pushed reservation data for ${lead.fullName} to Google Calendar & CRM!`);
+      setTimeout(() => setToastMessage(null), 5000);
     }, 1200);
   };
 
@@ -373,8 +375,15 @@ export default function StaffDashboardView() {
   }
 
   return (
-    <div className="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8 text-left">
-      <div className="space-y-4 mb-10">
+    <div className="relative z-10 bg-brand-dark dark:bg-[#0A0A0A] bg-grid-ambient min-h-screen py-12">
+      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 text-left">
+        {toastMessage && (
+          <div className="mb-6 rounded-2xl bg-emerald-500/10 border border-emerald-500/20 px-6 py-4 flex items-center gap-3 text-emerald-800 dark:text-emerald-400 text-xs font-black uppercase tracking-wide shadow-md animate-pulse">
+            <CheckCircle className="h-5 w-5 text-emerald-500 shrink-0" />
+            <span>{toastMessage}</span>
+          </div>
+        )}
+        <div className="space-y-4 mb-10">
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
           <div className="inline-flex items-center gap-1.5 rounded-full border border-black/5 dark:border-white/10 bg-white dark:bg-[#1A1A1A] px-4 py-2 text-[10px] font-bold text-[#0052FF] uppercase tracking-widest leading-none shadow-sm w-fit">
             <Sliders className="h-3.5 w-3.5 shrink-0" />
@@ -812,6 +821,7 @@ export default function StaffDashboardView() {
             </button>
           </div>
         )}
+      </div>
       </div>
     </div>
   );

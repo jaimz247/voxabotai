@@ -82,3 +82,56 @@ h1, h2, h3, h4 {
   box-shadow: 0 25px 50px -12px rgba(16, 185, 129, 0.1), 0 0 40px rgba(0, 0, 0, 0.6);
 }
 
+/* Premium $100k Dotted Blueprint and Glow Utilities */
+.bg-grid-ambient {
+  background-size: 30px 30px;
+  background-image: radial-gradient(circle, rgba(0, 82, 255, 0.04) 1px, transparent 1px);
+}
+.dark .bg-grid-ambient {
+  background-image: radial-gradient(circle, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
+}
+
+.text-gradient-primary {
+  background: linear-gradient(135deg, #0052FF 0%, #2563EB 50%, #1D4ED8 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+.dark .text-gradient-primary {
+  background: linear-gradient(135deg, #60a5fa 0%, #3b82f6 50%, #1d4ed8 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.neon-border-glow {
+  box-shadow: 0 0 20px rgba(0, 82, 255, 0.06), inset 0 0 12px rgba(0, 82, 255, 0.04);
+}
+.dark .neon-border-glow {
+  box-shadow: 0 0 30px rgba(0, 82, 255, 0.12), inset 0 0 16px rgba(255, 255, 255, 0.02);
+}
+
+/* Custom premium hover lift */
+.hover-lift {
+  transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.hover-lift:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 12px 30px -10px rgba(0, 82, 255, 0.08);
+}
+.dark .hover-lift:hover {
+  box-shadow: 0 16px 36px -12px rgba(0, 0, 0, 0.5);
+}
+
+/* Audio wave animation container */
+.wave-bar {
+  display: inline-block;
+  width: 2px;
+  height: 12px;
+  background-color: #0052FF;
+  border-radius: 9999px;
+  animation: pulseHeight 1.2s infinite ease-in-out;
+}
+@keyframes pulseHeight {
+  0%, 100% { height: 6px; }
+  50% { height: 20px; }
+}
+

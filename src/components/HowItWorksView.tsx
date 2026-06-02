@@ -95,30 +95,30 @@ export default function HowItWorksView({ onBookDemoClick }: HowItWorksViewProps)
   };
 
   return (
-    <section className="relative z-10 py-24 bg-brand-dark overflow-hidden">
+    <section className="relative z-10 py-24 bg-brand-dark dark:bg-[#0A0A0A] bg-grid-ambient overflow-hidden">
       {/* Decorative Orbs */}
-      <div className="absolute top-1/4 right-0 -z-10 h-112 w-112 rounded-full bg-[#0052FF]/2 blur-3xl opacity-60"></div>
-      <div className="absolute bottom-1/4 left-0 -z-10 h-112 w-112 rounded-full bg-[#0052FF]/2 blur-3xl opacity-60"></div>
+      <div className="absolute top-1/4 right-0 -z-10 h-112 w-112 rounded-full bg-[#0052FF]/2 dark:bg-[#0052FF]/5 blur-3xl opacity-60"></div>
+      <div className="absolute bottom-1/4 left-0 -z-10 h-112 w-112 rounded-full bg-[#0052FF]/2 dark:bg-[#0052FF]/5 blur-3xl opacity-60"></div>
 
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         
         {/* Section Header */}
-        <div className="text-center space-y-4 mb-20">
-          <div className="inline-flex items-center gap-1.5 rounded-full border border-black/5 bg-white px-4 py-2 text-[10px] font-bold text-[#0052FF] uppercase tracking-widest leading-none shadow-sm">
-            <Sparkles className="h-3.5 w-3.5 shrink-0 text-[#0052FF]" />
+        <div className="text-center space-y-4 mb-20 px-4">
+          <div className="inline-flex items-center gap-1.5 rounded-full border border-black/5 dark:border-white/10 bg-white dark:bg-[#111111] px-4 py-2 text-[10px] font-bold text-[#0052FF] dark:text-blue-400 uppercase tracking-widest leading-none shadow-sm">
+            <Sparkles className="h-3.5 w-3.5 shrink-0 text-[#0052FF] dark:text-blue-400" />
             <span>Deployment Framework</span>
           </div>
-          <h2 className="text-3xl sm:text-4xl md:text-5xl font-black text-[#1A1A1A] uppercase leading-[0.95] heading-inter-heavy">
-            Simple to Deploy. <br /><span className="text-[#0052FF]">Easy for Your Team to Use.</span>
+          <h2 className="text-3xl sm:text-4xl md:text-5xl font-black text-[#1A1A1A] dark:text-white uppercase leading-[0.95] heading-inter-heavy tracking-tighter">
+            Simple to Deploy. <br /><span className="text-[#0052FF] dark:text-blue-400">Easy for Your Team to Use.</span>
           </h2>
-          <p className="text-slate-600 max-w-2xl mx-auto text-sm sm:text-base leading-relaxed font-semibold">
+          <p className="text-slate-600 dark:text-slate-300 max-w-2xl mx-auto text-sm sm:text-base leading-relaxed font-semibold">
             Voxabot AI integrates directly with the existing software tools your healthcare team already uses — phones, WhatsApp numbers, calendars, spreadsheets, and front-desk workflows.
           </p>
         </div>
 
         {/* Dynamic Connected Pipeline Timeline */}
         <motion.div 
-          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 relative"
+          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 relative px-2"
           variants={containerVariants}
           initial="hidden"
           whileInView="visible"
@@ -130,41 +130,41 @@ export default function HowItWorksView({ onBookDemoClick }: HowItWorksViewProps)
               <motion.div
                 key={step.number}
                 variants={itemVariants}
-                className="group relative rounded-3xl border border-black/5 bg-white hover:bg-slate-50/50 p-8 hover:border-black/10 transition-all flex flex-col justify-between shadow-sm hover:shadow-md"
+                className="group relative rounded-3xl border border-black/5 dark:border-white/10 bg-white dark:bg-[#111111] hover-lift p-8 hover:border-[#0052FF]/20 dark:hover:border-blue-500/20 transition-all flex flex-col justify-between shadow-sm"
               >
                 {/* Background active hover gradient bar */}
-                <div className="absolute inset-x-0 top-0 h-1.5 rounded-t-3xl bg-slate-100 group-hover:bg-[#0052FF] transition-all duration-350" />
+                <div className="absolute inset-x-0 top-0 h-1.5 rounded-t-3xl bg-slate-100 dark:bg-zinc-800 group-hover:bg-[#0052FF] transition-all duration-350" />
 
                 <div className="space-y-6">
                   {/* Step No Badge & Icon Header */}
                   <div className="flex items-center justify-between">
-                    <span className="font-mono text-xs font-bold uppercase tracking-wider text-slate-500 group-hover:text-[#0052FF] transition-colors">
+                    <span className="font-mono text-xs font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400 group-hover:text-[#0052FF] dark:group-hover:text-blue-400 transition-colors">
                       Phase 0{step.number}
                     </span>
-                    <span className="inline-flex items-center rounded-full bg-slate-50 border border-black/5 px-2.5 py-1 text-[9px] font-bold tracking-wider uppercase text-slate-500">
+                    <span className="inline-flex items-center rounded-full bg-slate-50 dark:bg-zinc-900 border border-black/5 dark:border-white/10 px-2.5 py-1 text-[9px] font-bold tracking-wider uppercase text-slate-500 dark:text-slate-400">
                       {step.badge}
                     </span>
                   </div>
 
                   <div className="flex items-center gap-4">
-                    <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-blue-50 border border-blue-100 text-[#0052FF] group-hover:scale-105 transition-transform">
+                    <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-blue-50 dark:bg-blue-950/20 border border-blue-100 dark:border-blue-900 text-[#0052FF] dark:text-blue-400 group-hover:scale-105 transition-transform animate-pulse">
                       <Icon className="h-5.5 w-5.5" />
                     </div>
-                    <h3 className="font-display text-lg font-extrabold tracking-tight text-[#1A1A1A] group-hover:text-[#0052FF] transition-colors uppercase">
+                    <h3 className="font-display text-lg font-extrabold tracking-tight text-[#1A1A1A] dark:text-white group-hover:text-[#0052FF] dark:group-hover:text-blue-400 transition-colors uppercase">
                       {step.title}
                     </h3>
                   </div>
 
                   {/* Body Copy */}
-                  <p className="text-sm text-slate-500 leading-relaxed font-semibold">
+                  <p className="text-sm text-slate-500 dark:text-slate-400 leading-relaxed font-semibold">
                     {step.description}
                   </p>
                 </div>
 
                 {/* Number Watermark at Bottom Right */}
-                <div className="mt-8 pt-4 flex items-center justify-between border-t border-black/5">
-                  <span className="text-xs text-slate-400 font-bold font-mono">STEP 0{step.number}/06</span>
-                  <span className="font-display text-[48px] font-extrabold text-slate-100 group-hover:text-blue-100 select-none transition-colors leading-none">
+                <div className="mt-8 pt-4 flex items-center justify-between border-t border-black/5 dark:border-white/5">
+                  <span className="text-xs text-slate-400 dark:text-slate-500 font-bold font-mono">STEP 0{step.number}/06</span>
+                  <span className="font-display text-[48px] font-extrabold text-slate-100 dark:text-zinc-900 group-hover:text-blue-100 dark:group-hover:text-blue-950 select-none transition-colors leading-none">
                     {step.number}
                   </span>
                 </div>
@@ -175,13 +175,13 @@ export default function HowItWorksView({ onBookDemoClick }: HowItWorksViewProps)
 
         {/* Integration notice statement */}
         <div className="mt-16 text-center space-y-6">
-          <p className="text-[10px] font-bold text-slate-500 tracking-widest uppercase">
+          <p className="text-[10px] font-bold text-slate-500 dark:text-slate-400 tracking-widest uppercase">
             COMPATIBLE WITH CALENDLY • GOOGLE SHEETS • EXCEL • HUBSPOT • ACTIVE CAMPAIGN • PRACTICE DASHBOARDS
           </p>
           <div className="flex flex-col sm:flex-row justify-center items-center gap-4">
             <button
               onClick={onBookDemoClick}
-              className="inline-flex items-center gap-2 rounded-full bg-[#1A1A1A] hover:bg-[#0052FF] hover:scale-105 active:scale-95 text-white px-8 py-5 text-xs font-black uppercase tracking-tighter btn-heavy transition-all cursor-pointer shadow-lg"
+              className="inline-flex items-center gap-2 rounded-full bg-[#1A1A1A] hover:bg-[#0052FF] dark:bg-white dark:text-black dark:hover:bg-[#0052FF] dark:hover:text-white text-white px-8 py-5 text-xs font-black uppercase tracking-tighter btn-heavy transition-all cursor-pointer shadow-lg hover:scale-105 active:scale-95"
             >
               <span>Schedule Live Implementation Call</span>
               <Calendar className="h-4 w-4 shrink-0" />

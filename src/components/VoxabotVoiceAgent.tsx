@@ -52,27 +52,40 @@ export default function VoxabotVoiceAgent() {
           </div>
 
           {/* Glowing Dial / Sound visualizer mockup wrapper */}
-          <div className="relative my-6 flex items-center justify-center">
+          <div className="relative my-6 flex flex-col items-center justify-center">
             
-            {/* Pulsing visual circles */}
-            <motion.div 
-              animate={{ scale: [1, 1.25, 1], opacity: [0.15, 0.05, 0.15] }}
-              transition={{ repeat: Infinity, duration: 2.2, ease: "easeInOut" }}
-              className="absolute h-32 w-32 rounded-full border border-blue-500 pointer-events-none" 
-            />
-            <motion.div 
-              animate={{ scale: [1, 1.45, 1], opacity: [0.1, 0.02, 0.1] }}
-              transition={{ repeat: Infinity, duration: 2.2, delay: 0.4, ease: "easeInOut" }}
-              className="absolute h-40 w-40 rounded-full border border-emerald-500 pointer-events-none" 
-            />
+            {/* Soundwave visuals around the trigger */}
+            <div className="flex items-center justify-center gap-1.5 h-12 mb-4">
+              <span className="wave-bar" style={{ animationDelay: '0.1s', backgroundColor: '#3b82f6' }} />
+              <span className="wave-bar" style={{ animationDelay: '0.3s', backgroundColor: '#60a5fa' }} />
+              <span className="wave-bar" style={{ animationDelay: '0.5s', backgroundColor: '#0052FF' }} />
+              <span className="wave-bar" style={{ animationDelay: '0.2s', backgroundColor: '#10b981' }} />
+              <span className="wave-bar" style={{ animationDelay: '0.4s', backgroundColor: '#34d399' }} />
+              <span className="wave-bar" style={{ animationDelay: '0.6s', backgroundColor: '#0052FF' }} />
+              <span className="wave-bar" style={{ animationDelay: '0.8s', backgroundColor: '#3b82f6' }} />
+            </div>
 
-            {/* Simulated Microphone / Call icon container */}
-            <div className="relative h-20 w-20 rounded-full bg-slate-900 border-2 border-slate-800 dark:border-white/10 shadow-lg flex items-center justify-center text-white z-10 overflow-visible">
-              <Phone className="h-6 w-6 text-emerald-400 animate-pulse" />
-              
-              {/* ElevenLabs Custom Widget Embed overlayed right at the center of the ring */}
-              <div className="absolute inset-0 flex items-center justify-center overflow-visible scale-[1.5] cursor-pointer origin-center opacity-95 hover:opacity-100 transition-opacity">
-                <ElevenLabsConvai agent-id="agent_1501kt1zj0agfjj86gkr57md9d47"></ElevenLabsConvai>
+            <div className="relative flex items-center justify-center">
+              {/* Pulsing visual circles */}
+              <motion.div 
+                animate={{ scale: [1, 1.25, 1], opacity: [0.15, 0.05, 0.15] }}
+                transition={{ repeat: Infinity, duration: 2.2, ease: "easeInOut" }}
+                className="absolute h-32 w-32 rounded-full border border-blue-500/30 dark:border-blue-500/20 pointer-events-none" 
+              />
+              <motion.div 
+                animate={{ scale: [1, 1.45, 1], opacity: [0.1, 0.02, 0.1] }}
+                transition={{ repeat: Infinity, duration: 2.2, delay: 0.4, ease: "easeInOut" }}
+                className="absolute h-40 w-40 rounded-full border border-emerald-500/30 dark:border-emerald-500/20 pointer-events-none" 
+              />
+
+              {/* Simulated Microphone / Call icon container */}
+              <div className="relative h-20 w-20 rounded-full bg-slate-900 border-2 border-slate-800 dark:border-white/10 shadow-lg flex items-center justify-center text-white z-10 overflow-visible">
+                <Phone className="h-6 w-6 text-emerald-400 animate-pulse" />
+                
+                {/* ElevenLabs Custom Widget Embed overlayed right at the center of the ring */}
+                <div className="absolute inset-0 flex items-center justify-center overflow-visible scale-[1.5] cursor-pointer origin-center opacity-95 hover:opacity-100 transition-opacity">
+                  <ElevenLabsConvai agent-id="agent_1501kt1zj0agfjj86gkr57md9d47"></ElevenLabsConvai>
+                </div>
               </div>
             </div>
           </div>

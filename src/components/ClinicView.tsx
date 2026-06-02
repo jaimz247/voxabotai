@@ -210,12 +210,12 @@ export default function ClinicView({ onBookDemoClick }: ClinicViewProps) {
   ];
 
   return (
-    <div className="relative z-10 bg-brand-dark">
+    <div className="relative z-10 bg-brand-dark dark:bg-[#0A0A0A] bg-grid-ambient min-h-screen pb-16">
       
       {/* Hero Visual Area Backdrop */}
-      <div className="absolute top-0 inset-x-0 h-160 bg-[linear-gradient(to_bottom,rgba(0,82,255,0.03),transparent)] -z-10" />
-      <div className="absolute top-40 right-10 h-96 w-96 rounded-full bg-[#0052FF]/2 blur-3xl -z-10" />
-
+      <div className="absolute top-0 inset-x-0 h-160 bg-[linear-gradient(to_bottom,rgba(0,82,255,0.03),transparent)] dark:bg-[linear-gradient(to_bottom,rgba(0,82,255,0.08),transparent)] -z-10" />
+      <div className="absolute top-40 right-10 h-96 w-96 rounded-full bg-[#0052FF]/2 dark:bg-[#0052FF]/5 blur-3xl -z-10" />
+ 
       {/* Hero Section */}
       <section className="pt-20 pb-16 mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
@@ -227,35 +227,35 @@ export default function ClinicView({ onBookDemoClick }: ClinicViewProps) {
             transition={{ duration: 0.6 }}
             className="lg:col-span-12 xl:col-span-7 space-y-6 text-left"
           >
-            <div className="inline-flex items-center gap-1.5 rounded-full border border-black/5 bg-white px-4 py-2 text-[10px] font-bold text-[#0052FF] uppercase tracking-widest leading-none shadow-sm">
+            <div className="inline-flex items-center gap-1.5 rounded-full border border-black/5 dark:border-white/10 bg-white dark:bg-[#111111] px-4 py-2 text-[10px] font-bold text-[#0052FF] dark:text-blue-400 uppercase tracking-widest leading-none shadow-sm">
               <Sparkles className="h-3.5 w-3.5 shrink-0 text-[#0052FF]" />
               <span>VOXABOT CLINIC FRONT DESK</span>
             </div>
             
-            <h1 className="text-4xl md:text-[68px] leading-[0.85] text-slate-900 uppercase heading-inter-heavy">
-              Give Your Clinic a <br /><span className="text-[#0052FF]">24/7 AI Front Desk</span>
+            <h1 className="text-4xl md:text-[68px] leading-[0.85] text-slate-900 dark:text-white uppercase heading-inter-heavy tracking-tighter">
+              Give Your Clinic a <br /><span className="text-[#0052FF] dark:text-blue-400">24/7 AI Front Desk</span>
             </h1>
-
-            <p className="text-slate-600 text-sm sm:text-lg leading-relaxed max-w-2xl font-semibold">
+ 
+            <p className="text-slate-600 dark:text-slate-300 text-sm sm:text-lg leading-relaxed max-w-2xl font-semibold">
               Voxabot Clinic Front Desk helps healthcare teams answer patient enquiries, book appointments, send reminders, and recover missed calls through instant WhatsApp and phone workflows.
             </p>
-
+ 
             <div className="flex flex-wrap gap-4 pt-2">
               <button
                 onClick={onBookDemoClick}
-                className="inline-flex items-center gap-2 rounded-full bg-[#1A1A1A] hover:bg-[#0052FF] hover:scale-105 active:scale-95 text-white px-8 py-5 text-xs font-black uppercase tracking-tighter btn-heavy transition-all cursor-pointer shadow-lg"
+                className="inline-flex items-center gap-2 rounded-full bg-[#1A1A1A] hover:bg-[#0052FF] dark:bg-white dark:text-black dark:hover:bg-[#0052FF] dark:hover:text-white text-white px-8 py-5 text-xs font-black uppercase tracking-tighter btn-heavy transition-all cursor-pointer shadow-lg hover:scale-105 active:scale-95"
               >
                 <span>Book a Free Clinic Demo</span>
               </button>
             </div>
-
-            <div className="border-t border-black/5 pt-6 mt-6 max-w-xl">
-              <p className="text-xs text-slate-500 leading-relaxed italic font-medium">
+ 
+            <div className="border-t border-black/5 dark:border-white/5 pt-6 mt-6 max-w-xl">
+              <p className="text-xs text-slate-500 dark:text-slate-400 leading-relaxed italic font-medium">
                 “If your clinic misses an outbound enquiry or answers WhatsApp delayed, that patient may simply contact another outpatient provider. Voxabot guarantees 100% immediate connectivity.”
               </p>
             </div>
           </motion.div>
-
+ 
           {/* Interactive Screen Simulator Side */}
           <motion.div 
             initial={{ opacity: 0, y: 30 }}
@@ -263,26 +263,26 @@ export default function ClinicView({ onBookDemoClick }: ClinicViewProps) {
             transition={{ duration: 0.6, delay: 0.2 }}
             className="lg:col-span-12 xl:col-span-5 relative"
           >
-            <div className="rounded-3xl border border-black/10 bg-white p-6 shadow-xl aspect-[9/16] w-full max-w-[400px] mx-auto flex flex-col justify-between relative overflow-hidden">
+            <div className="rounded-3xl border border-black/10 dark:border-white/10 bg-white dark:bg-[#111111] p-6 shadow-2xl aspect-[9/16] w-full max-w-[400px] mx-auto flex flex-col justify-between relative overflow-hidden neon-border-glow">
               
               {/* Notch */}
-              <div className="absolute top-0 inset-x-0 h-8 bg-slate-50 border-b border-black/5 px-4 flex items-center justify-between">
+              <div className="absolute top-0 inset-x-0 h-8 bg-slate-50 dark:bg-zinc-900 border-b border-black/5 dark:border-white/5 px-4 flex items-center justify-between">
                 <div className="flex items-center gap-1">
-                  <span className="text-[9px] font-bold text-slate-600 uppercase tracking-widest">VOXABOT CLINIC SIMULATOR</span>
+                  <span className="text-[9px] font-bold text-slate-600 dark:text-slate-400 uppercase tracking-widest">VOXABOT CLINIC SIMULATOR</span>
                 </div>
                 <div className="flex h-1.5 w-1.5 rounded-full bg-[#0052FF] animate-pulse" />
               </div>
-
+ 
               {/* Chat Area */}
               <div className="flex-1 h-96 overflow-y-auto pt-10 pb-4 space-y-4 flex flex-col justify-end">
                 {selectedScenario === null ? (
                   <div className="text-center p-6 space-y-4 my-auto">
-                    <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-full bg-blue-50 border border-blue-100 text-[#0052FF]">
+                    <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-full bg-blue-50 dark:bg-blue-950/20 border border-blue-100 dark:border-blue-900 text-[#0052FF] dark:text-blue-400">
                       <AlertCircle className="h-6 w-6" />
                     </div>
                     <div>
-                      <h4 className="font-display text-sm font-extrabold text-slate-900 uppercase tracking-wide">Click a patient inquiry below</h4>
-                      <p className="text-xs text-slate-500 mt-1 font-semibold leading-relaxed">Select any simulated outpatient question to trigger the AI Clinical flow live!</p>
+                      <h4 className="font-display text-sm font-extrabold text-slate-900 dark:text-white uppercase tracking-wide">Click a patient inquiry below</h4>
+                      <p className="text-xs text-slate-500 dark:text-slate-400 mt-1 font-semibold leading-relaxed">Select any simulated outpatient question to trigger the AI Clinical flow live!</p>
                     </div>
                   </div>
                 ) : (
@@ -299,16 +299,16 @@ export default function ClinicView({ onBookDemoClick }: ClinicViewProps) {
                         }`}
                       >
                         {msg.sender === 'system' ? (
-                          <div className="bg-[#1A1A1A] text-white rounded-lg px-2.5 py-1.5 text-[9px] font-mono font-bold tracking-wider uppercase text-center w-full shadow-inner">
+                          <div className="bg-[#1A1A1A] dark:bg-zinc-800 text-white dark:text-zinc-100 rounded-lg px-2.5 py-1.5 text-[9px] font-mono font-bold tracking-wider uppercase text-center w-full shadow-inner">
                             {msg.text}
                           </div>
                         ) : (
                           <>
-                            <span className="text-[9px] text-slate-500 mb-0.5 tracking-wider font-bold uppercase">{msg.sender === 'patient' ? 'PATIENT ENQUIRY' : 'VOXABOT AI'} • {msg.time}</span>
+                            <span className="text-[9px] text-slate-500 dark:text-slate-400 mb-0.5 tracking-wider font-bold uppercase">{msg.sender === 'patient' ? 'PATIENT ENQUIRY' : 'VOXABOT AI'} • {msg.time}</span>
                             <div className={`rounded-xl px-3.5 py-2.5 text-xs leading-relaxed font-semibold shadow-sm ${
                               msg.sender === 'patient'
                                 ? 'bg-[#0052FF] text-white rounded-tr-none'
-                                : 'bg-brand-medium border border-black/5 text-[#1A1A1A] rounded-tl-none'
+                                : 'bg-brand-medium dark:bg-zinc-900 border border-black/5 dark:border-white/10 text-[#1A1A1A] dark:text-white rounded-tl-none'
                             }`}>
                               {msg.text}
                             </div>
@@ -316,11 +316,11 @@ export default function ClinicView({ onBookDemoClick }: ClinicViewProps) {
                         )}
                       </div>
                     ))}
-
+ 
                     {typingState && (
                       <div className="self-start flex flex-col max-w-[85%] items-start animate-pulse mr-auto">
-                        <span className="text-[9px] text-slate-500 mb-0.5 font-bold uppercase">VOXABOT AI TYPING...</span>
-                        <div className="rounded-xl rounded-tl-none bg-brand-medium border border-black/5 px-3 py-2 text-[11px] text-slate-600 flex items-center gap-1.5">
+                        <span className="text-[9px] text-slate-500 dark:text-slate-400 mb-0.5 font-bold uppercase">VOXABOT AI TYPING...</span>
+                        <div className="rounded-xl rounded-tl-none bg-brand-medium dark:bg-zinc-900 border border-black/5 dark:border-white/10 px-3 py-2 text-[11px] text-slate-600 dark:text-slate-350 flex items-center gap-1.5">
                           <span className="h-1.5 w-1.5 rounded-full bg-[#0052FF] animate-bounce" />
                           <span className="h-1.5 w-1.5 rounded-full bg-[#0052FF] animate-bounce [animation-delay:0.2s]" />
                           <span className="h-1.5 w-1.5 rounded-full bg-[#0052FF] animate-bounce [animation-delay:0.4s]" />
@@ -330,10 +330,10 @@ export default function ClinicView({ onBookDemoClick }: ClinicViewProps) {
                   </div>
                 )}
               </div>
-
+ 
               {/* Patient question options */}
-              <div className="border-t border-black/5 pt-4">
-                <p className="text-[10px] font-bold text-slate-600 uppercase tracking-widest mb-2">Simulated Outpatient Questions</p>
+              <div className="border-t border-black/5 dark:border-white/10 pt-4">
+                <p className="text-[10px] font-bold text-slate-600 dark:text-slate-400 uppercase tracking-widest mb-2">Simulated Outpatient Questions</p>
                 <div className="grid grid-cols-2 gap-2 h-32 overflow-y-auto pr-1">
                   {scenarios.map((scen) => (
                     <button
@@ -341,8 +341,8 @@ export default function ClinicView({ onBookDemoClick }: ClinicViewProps) {
                       onClick={() => handleScenarioClick(scen)}
                       className={`text-left rounded-lg p-2 text-[10px] leading-tight border transition-all truncate select-none cursor-pointer font-bold ${
                         selectedScenario === scen.id
-                          ? 'bg-blue-50 border-[#0052FF] text-[#0052FF]'
-                          : 'bg-white border-black/15 text-slate-700 hover:border-black/30 hover:bg-slate-50 hover:text-slate-900 shadow-sm'
+                          ? 'bg-blue-50 dark:bg-blue-950/40 border-[#0052FF] dark:border-blue-400 text-[#0052FF] dark:text-blue-300'
+                          : 'bg-white dark:bg-zinc-900 border-black/15 dark:border-white/10 text-slate-700 dark:text-slate-300 hover:border-black/30 dark:hover:border-white/20 hover:bg-slate-50 dark:hover:bg-zinc-800 shadow-sm'
                       }`}
                       id={`scenario-${scen.id}`}
                     >
@@ -351,10 +351,10 @@ export default function ClinicView({ onBookDemoClick }: ClinicViewProps) {
                   ))}
                 </div>
               </div>
-
+ 
             </div>
           </motion.div>
-
+ 
         </div>
       </section>
 

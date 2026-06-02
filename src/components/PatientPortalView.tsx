@@ -174,9 +174,10 @@ This is an official certified diagnostic report.`;
   };
 
   return (
-    <div className="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8 text-left">
-      {/* Dynamic Header Block */}
-      <div className="space-y-4 mb-10">
+    <div className="relative z-10 bg-brand-dark dark:bg-[#0A0A0A] bg-grid-ambient min-h-screen py-12">
+      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 text-left">
+        {/* Dynamic Header Block */}
+        <div className="space-y-4 mb-10">
         <div className="inline-flex items-center gap-1.5 rounded-full border border-black/5 dark:border-white/10 bg-white dark:bg-[#1A1A1A] px-4 py-2 text-[10px] font-bold text-[#0052FF] uppercase tracking-widest leading-none shadow-sm">
           <HeartPulse className="h-3.5 w-3.5 shrink-0 text-[#0052FF]" />
           <span>Voxabot Patient Hub Portals</span>
@@ -402,6 +403,7 @@ This is an official certified diagnostic report.`;
           </motion.div>
         )}
       </AnimatePresence>
+      </div>
     </div>
   );
 }
