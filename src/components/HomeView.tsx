@@ -35,6 +35,7 @@ import {
 import TestimonialsView from './TestimonialsView';
 import { ActiveTab } from '../types';
 import { Language, translations } from '../locales';
+import VoxabotVoiceAgent from './VoxabotVoiceAgent';
 
 interface HomeViewProps {
   setActiveTab: (tab: ActiveTab) => void;
@@ -207,6 +208,11 @@ export default function HomeView({ setActiveTab, language }: HomeViewProps) {
               <br className="my-3 block"/>
               <span className="text-[#1A1A1A] font-extrabold">Voxabot AI helps your healthcare team respond faster, capture more enquiries, reduce front-desk pressure, and improve the patient experience — without replacing your current software systems.</span>
             </p>
+          </div>
+
+          {/* ElevenLabs Interactive Phone Voice Demo */}
+          <div className="max-w-4xl mx-auto text-left mt-8">
+            <VoxabotVoiceAgent />
           </div>
 
         </div>

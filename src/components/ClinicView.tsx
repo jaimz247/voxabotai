@@ -20,6 +20,7 @@ import {
 } from 'lucide-react';
 import { SimulatedScenario } from '../types';
 import MapWithDirections from './MapWithDirections';
+import VoxabotVoiceAgent from './VoxabotVoiceAgent';
 
 interface ClinicViewProps {
   onBookDemoClick: () => void;
@@ -354,6 +355,13 @@ export default function ClinicView({ onBookDemoClick }: ClinicViewProps) {
             </div>
           </motion.div>
 
+        </div>
+      </section>
+
+      {/* Live Audio Pilot Hub */}
+      <section className="py-8 bg-brand-dark relative z-10">
+        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+          <VoxabotVoiceAgent />
         </div>
       </section>
 

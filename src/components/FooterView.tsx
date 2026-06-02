@@ -15,6 +15,8 @@ interface FooterViewProps {
 export default function FooterView({ setActiveTab }: FooterViewProps) {
   const currentYear = new Date().getFullYear();
   const [copied, setCopied] = useState(false);
+  const [logoSrc, setLogoSrc] = useState('/logo-horizontal.svg');
+  const [logoLoadError, setLogoLoadError] = useState(false);
 
   const handleNavClick = (tabId: ActiveTab) => {
     setActiveTab(tabId);
@@ -40,15 +42,33 @@ export default function FooterView({ setActiveTab }: FooterViewProps) {
           {/* Brand Col */}
           <div className="md:col-span-5 space-y-6">
             <div className="flex items-center gap-2.5">
-              <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-gradient-to-tr from-emerald-600 via-emerald-500 to-cyan-400 shadow-md">
-                <MessageSquareCode className="h-5.5 w-5.5 text-white" />
-              </div>
-              <div>
-                <span className="font-display text-xl font-bold tracking-tight text-white">
-                  Voxabot<span className="text-emerald-400">AI</span>
-                </span>
-                <p className="text-[10px] text-slate-400 tracking-wider uppercase">Clinical Communication Assistant </p>
-              </div>
+              {!logoLoadError ? (
+                <img 
+                  src={logoSrc} 
+                  alt="VOXABOT" 
+                  onError={(e) => {
+                    console.error(`[Footer Logo Diagnostic] Failed to load logo from source: "${logoSrc}"`);
+                    if (logoSrc === '/logo-horizontal.svg') {
+                      setLogoSrc('/favicon.svg');
+                    } else {
+                      setLogoLoadError(true);
+                    }
+                  }}
+                  className="h-10 md:h-11 w-auto object-contain block dark:opacity-90 dark:brightness-110"
+                />
+              ) : (
+                <>
+                  <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-[#0052FF] text-white shadow-md">
+                    <span className="font-display text-base font-black tracking-widest leading-none">V</span>
+                  </div>
+                  <div>
+                    <span className="font-display text-lg font-[900] tracking-widest text-white flex items-center gap-1.5 uppercase">
+                      VOXABOT <span className="text-[#1A1A1A] font-black text-[9px] tracking-widest px-2 py-0.5 rounded-full bg-white shadow-sm font-sans">AI</span>
+                    </span>
+                    <p className="text-[8px] text-blue-400 tracking-[0.15em] font-black uppercase leading-none mt-1">Automating Clinical Workflows</p>
+                  </div>
+                </>
+              )}
             </div>
             
             <p className="text-sm text-slate-400 max-w-sm leading-relaxed">
@@ -106,6 +126,15 @@ export default function FooterView({ setActiveTab }: FooterViewProps) {
                   id="footer-link-demo"
                 >
                   <span>Request Custom Pilot</span>
+                </button>
+              </li>
+              <li>
+                <button 
+                  onClick={() => handleNavClick('staff-dashboard')}
+                  className="hover:text-amber-400 text-slate-500 font-semibold transition-colors flex items-center gap-1.5 cursor-pointer mt-1"
+                  id="footer-link-staff"
+                >
+                  <span>🔐 Clinic Staff Portal</span>
                 </button>
               </li>
             </ul>

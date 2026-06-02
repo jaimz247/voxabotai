@@ -14,11 +14,26 @@ import LabView from './components/LabView';
 import HowItWorksView from './components/HowItWorksView';
 import DemoView from './components/DemoView';
 import StaffDashboardView from './components/StaffDashboardView';
+import ProtectedStaffRoute from './components/ProtectedStaffRoute';
 import PatientPortalView from './components/PatientPortalView';
 import SafetyView from './components/SafetyView';
 import FAQView from './components/FAQView';
 import FooterView from './components/FooterView';
-import { MessageCircle, Heart, Shield, Activity, X, Volume2, VolumeX, Send, Check } from 'lucide-react';
+import { MessageCircle, Heart, Shield, Activity, X, Volume2, VolumeX, Send, Check, Search } from 'lucide-react';
+
+const clinicalFaqsList = [
+  { id: 'faq-1', question: 'What is Voxabot AI?' },
+  { id: 'faq-2', question: 'Is Voxabot AI only for large hospitals?' },
+  { id: 'faq-3', question: 'Does Voxabot AI replace our front-desk staff?' },
+  { id: 'faq-4', question: 'Can it work with WhatsApp?' },
+  { id: 'faq-5', question: 'Can it answer phone calls?' },
+  { id: 'faq-6', question: 'Can it book appointments?' },
+  { id: 'faq-7', question: 'Can it handle lab result questions?' },
+  { id: 'faq-8', question: 'Can Voxabot AI interpret lab results medically?' },
+  { id: 'faq-9', question: 'How long does a typical setup take?' },
+  { id: 'faq-10', question: 'Do we need to replace our current software?' },
+  { id: 'faq-11', question: 'How do we get started?' }
+];
 
 export default function App() {
   const [activeTab, setActiveTab] = useState<ActiveTab>('home');
@@ -39,6 +54,13 @@ export default function App() {
   const [isSoundMuted, setIsSoundMuted] = useState(false);
   const [quickMessage, setQuickMessage] = useState('');
   const [showMessageSuccess, setShowMessageSuccess] = useState(false);
+  const [faqSearchQuery, setFaqSearchQuery] = useState('');
+
+  const filteredClinicalFaqs = faqSearchQuery.trim() === ''
+    ? clinicalFaqsList.filter(faq => ['faq-1', 'faq-4', 'faq-6'].includes(faq.id))
+    : clinicalFaqsList.filter(faq =>
+        faq.question.toLowerCase().includes(faqSearchQuery.trim().toLowerCase())
+      );
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -48,6 +70,17 @@ export default function App() {
     }, 30000);
     return () => clearTimeout(timer);
   }, [hasInteracted]);
+
+  useEffect(() => {
+    const existingScript = document.querySelector('script[src*="convai-widget-embed"]');
+    if (!existingScript) {
+      const script = document.createElement('script');
+      script.src = "https://unpkg.com/@elevenlabs/convai-widget-embed";
+      script.async = true;
+      script.type = "text/javascript";
+      document.body.appendChild(script);
+    }
+  }, []);
 
   const handleInteraction = () => {
     setHasInteracted(true);
@@ -159,9 +192,13 @@ export default function App() {
       case 'how-it-works':
         return <HowItWorksView onBookDemoClick={onBookDemoClick} />;
       case 'book-demo':
-        return <DemoView />;
+        return <DemoView setActiveTab={setActiveTab} />;
       case 'staff-dashboard':
-        return <StaffDashboardView />;
+        return (
+          <ProtectedStaffRoute>
+            <StaffDashboardView />
+          </ProtectedStaffRoute>
+        );
       case 'patient-portal':
         return <PatientPortalView />;
       default:
@@ -247,6 +284,31 @@ export default function App() {
                 </button>
               </div>
 
+              {/* Dynamic FAQ Search Bar */}
+              <div 
+                className="bg-black/5 dark:bg-white/5 border border-black/5 dark:border-white/5 rounded-xl px-2.5 py-2 flex items-center gap-2"
+                onClick={(e) => e.stopPropagation()}
+                onKeyDown={(e) => e.stopPropagation()}
+              >
+                <Search className="h-3.5 w-3.5 text-slate-400 shrink-0" />
+                <input
+                  type="text"
+                  value={faqSearchQuery}
+                  onChange={(e) => setFaqSearchQuery(e.target.value)}
+                  placeholder="Search clinical FAQs..."
+                  className="bg-transparent border-none outline-none text-xs text-slate-800 dark:text-white placeholder:text-slate-450 p-0 focus:outline-none focus:ring-0 w-full font-medium"
+                />
+                {faqSearchQuery && (
+                  <button
+                    onClick={() => setFaqSearchQuery('')}
+                    title="Clear search"
+                    className="p-0.5 rounded-full hover:bg-black/10 dark:hover:bg-white/10 text-slate-400 hover:text-slate-600 dark:hover:text-white transition-colors"
+                  >
+                    <X className="h-3 w-3" />
+                  </button>
+                )}
+              </div>
+
               {/* Pulse Speed Selector (Clinic Operating Status Indicator) */}
               <div className="space-y-2">
                 <div className="flex items-center justify-between">
@@ -276,24 +338,35 @@ export default function App() {
                 </div>
               </div>
 
-              {/* Top 3 FAQs Links */}
+              {/* Top FAQs Links */}
               <div className="space-y-2">
-                <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Popular Clinic FAQs</span>
-                <div className="flex flex-col gap-1.5">
-                  {[
-                    { id: 'faq-1', text: 'What is Voxabot AI?' },
-                    { id: 'faq-4', text: 'Can it work with WhatsApp?' },
-                    { id: 'faq-6', text: 'Can it book appointments?' }
-                  ].map((faq) => (
-                    <button
-                      key={faq.id}
-                      onClick={() => handleQuickFaqClick(faq.id)}
-                      className="w-full text-left p-2 rounded-lg bg-black/5 dark:bg-white/5 hover:bg-slate-50 dark:hover:bg-white/10 border border-black/5 dark:border-white/5 transition-all text-[11px] font-semibold text-slate-700 dark:text-slate-300 flex items-center justify-between group/faq cursor-pointer"
-                    >
-                      <span>{faq.text}</span>
-                      <span className="text-[10px] text-[#0052FF] opacity-0 group-hover/faq:opacity-100 transition-opacity font-black select-none">→</span>
-                    </button>
-                  ))}
+                <div className="flex items-center justify-between">
+                  <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider">
+                    {faqSearchQuery.trim() === '' ? 'Popular Clinic FAQs' : 'Matching Clinical FAQs'}
+                  </span>
+                  {faqSearchQuery.trim() !== '' && (
+                    <span className="text-[9px] font-black text-[#0052FF] uppercase tracking-widest bg-blue-50 dark:bg-blue-950/40 px-1.5 py-0.5 rounded-full">
+                      {filteredClinicalFaqs.length} Found
+                    </span>
+                  )}
+                </div>
+                <div className="flex flex-col gap-1.5 max-h-36 overflow-y-auto pr-0.5 scrollbar-thin">
+                  {filteredClinicalFaqs.length > 0 ? (
+                    filteredClinicalFaqs.map((faq) => (
+                      <button
+                        key={faq.id}
+                        onClick={() => handleQuickFaqClick(faq.id)}
+                        className="w-full text-left p-2 rounded-lg bg-black/5 dark:bg-white/5 hover:bg-slate-50 dark:hover:bg-white/10 border border-black/5 dark:border-white/5 transition-all text-[11px] font-semibold text-slate-700 dark:text-slate-300 flex items-center justify-between group/faq cursor-pointer"
+                      >
+                        <span className="line-clamp-2 pr-1">{faq.question}</span>
+                        <span className="text-[10px] text-[#0052FF] shrink-0 opacity-0 group-hover/faq:opacity-100 transition-opacity font-black select-none">→</span>
+                      </button>
+                    ))
+                  ) : (
+                    <div className="text-[10px] text-slate-400 dark:text-slate-500 py-3 text-center italic leading-relaxed">
+                      No matching FAQs found.<br />Try searching "WhatsApp" or "Result".
+                    </div>
+                  )}
                 </div>
               </div>
             </motion.div>
@@ -360,46 +433,115 @@ export default function App() {
             whileTap={{ scale: 0.95 }}
           >
             {/* Flex alignment layout */}
-            <div className="flex items-center justify-between gap-2.5 px-4 h-full w-full">
+            <div className="flex items-center justify-between gap-1.5 px-4 h-full w-full font-sans">
               
               {/* WhatsApp Trigger & Slide Text */}
-              <div className="flex items-center gap-2.5">
-                <MessageCircle className="h-6 w-6 shrink-0 text-white" />
+              <div className="flex items-center gap-2 shrink-0">
+                <div className="relative flex items-center justify-center">
+                  <MessageCircle className="h-6 w-6 shrink-0 text-white" />
+                  {/* Tiny visual sound toggle state indicator (mute/unmute) when sound is toggled off */}
+                  {isSoundMuted && (
+                    <span 
+                      className="absolute -bottom-1 -right-1 bg-rose-600 text-white border border-[#0052FF] rounded-full p-[1.5px] scale-90 shadow-sm flex items-center justify-center" 
+                      title="Muted"
+                      style={{ transformOrigin: 'bottom right' }}
+                    >
+                      <VolumeX className="h-2.5 w-2.5 shrink-0 text-white" />
+                    </span>
+                  )}
+                </div>
                 <AnimatePresence initial={false}>
                   {isHovered && (
                     <motion.span
-                      initial={{ opacity: 0, x: 20, width: 0 }}
+                      initial={{ opacity: 0, x: -15, width: 0 }}
                       animate={{ opacity: 1, x: 0, width: 'auto' }}
-                      exit={{ opacity: 0, x: 10, width: 0 }}
-                      transition={{ type: 'spring', damping: 20, stiffness: 220 }}
-                      className="text-[11px] font-black tracking-widest uppercase whitespace-nowrap overflow-hidden select-none"
+                      exit={{ opacity: 0, x: -10, width: 0 }}
+                      transition={{ type: 'spring', damping: 24, stiffness: 180, mass: 0.85 }}
+                      className="text-[10px] font-black tracking-widest uppercase whitespace-nowrap overflow-hidden select-none text-white/90"
                     >
-                      Live Support Active
+                      Live Desk
                     </motion.span>
                   )}
                 </AnimatePresence>
               </div>
 
-              {/* Instant support request & sound setting */}
+              {/* Fast Reply Bubbles within hover-expanded state */}
               <AnimatePresence>
                 {isHovered && (
                   <motion.div
-                    initial={{ opacity: 0, scale: 0.9, x: 15 }}
-                    animate={{ opacity: 1, scale: 1, x: 0 }}
-                    exit={{ opacity: 0, scale: 0.9, x: 15 }}
-                    transition={{ duration: 0.2 }}
-                    className="flex items-center gap-2.5 shrink-0"
+                    initial={{ opacity: 0, y: 10, scale: 0.9 }}
+                    animate={{ opacity: 1, y: 0, scale: 1 }}
+                    exit={{ opacity: 0, y: 5, scale: 0.9 }}
+                    className="flex items-center gap-1.5 shrink-0"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      e.preventDefault();
+                    }}
+                  >
+                    <button
+                      type="button"
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        e.preventDefault();
+                        setActiveTab('book-demo');
+                        window.scrollTo({ top: 0, behavior: 'smooth' });
+                      }}
+                      className="px-2 py-1 rounded-full bg-white/15 hover:bg-white text-[9px] font-black text-white hover:text-[#0052FF] transition-all uppercase tracking-wider cursor-pointer shadow-sm shrink-0"
+                    >
+                      Book Now
+                    </button>
+                    <button
+                      type="button"
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        e.preventDefault();
+                        setQuickMessage('Pricing Inquiry');
+                      }}
+                      className="px-2 py-1 rounded-full bg-white/15 hover:bg-white text-[9px] font-black text-white hover:text-[#0052FF] transition-all uppercase tracking-wider cursor-pointer shadow-sm shrink-0"
+                    >
+                      Pricing
+                    </button>
+                    <button
+                      type="button"
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        e.preventDefault();
+                        setQuickMessage('Location Details');
+                      }}
+                      className="px-2 py-1 rounded-full bg-white/15 hover:bg-white text-[9px] font-black text-white hover:text-[#0052FF] transition-all uppercase tracking-wider cursor-pointer shadow-sm shrink-0"
+                    >
+                      Location
+                    </button>
+                  </motion.div>
+                )}
+              </AnimatePresence>
+
+              {/* Instant support request & sound setting */}
+              <AnimatePresence>
+                {isHovered && (
+                  <div
+                    className="flex items-center gap-2 shrink-0"
                     onClick={(e) => {
                       // Prevent clicks inside text/controls from triggering navigation
                       e.stopPropagation();
                       e.preventDefault();
                     }}
                   >
-                    {/* Vertical Divider */}
-                    <div className="h-5 w-[1px] bg-white/20" />
+                    {/* Vertical Divider (Stagger 1) */}
+                    <motion.div 
+                      initial={{ opacity: 0, scaleY: 0 }}
+                      animate={{ opacity: 0.25, scaleY: 1 }}
+                      exit={{ opacity: 0, scaleY: 0 }}
+                      transition={{ duration: 0.2, delay: 0.06 }}
+                      className="h-5 w-[1px] bg-white" 
+                    />
 
-                    {/* Instant support message form */}
-                    <form
+                    {/* Instant support message form (Stagger 2) */}
+                    <motion.form
+                      initial={{ opacity: 0, x: 15, scale: 0.92 }}
+                      animate={{ opacity: 1, x: 0, scale: 1 }}
+                      exit={{ opacity: 0, x: 10, scale: 0.92 }}
+                      transition={{ type: 'spring', damping: 20, stiffness: 190, delay: 0.12 }}
                       onSubmit={(e) => {
                         e.preventDefault();
                         e.stopPropagation();
@@ -411,7 +553,7 @@ export default function App() {
                         playNotificationSound();
                         
                         setTimeout(() => {
-                          setShowMessageSuccess(false);
+                           setShowMessageSuccess(false);
                         }, 2500);
                       }}
                       className="relative flex items-center bg-white/10 dark:bg-black/25 hover:bg-white/15 dark:hover:bg-black/35 rounded-full px-2.5 py-1 text-xs text-white max-w-[170px]"
@@ -431,8 +573,8 @@ export default function App() {
                               // Prevent layout space/scrolling keys from sliding view
                               e.stopPropagation();
                             }}
-                            placeholder="SUPPORT REQUEST..."
-                            className="bg-transparent border-none text-[9px] placeholder:text-white/50 focus:outline-none focus:ring-0 text-white w-24 sm:w-28 font-black uppercase p-0 select-text"
+                            placeholder="SUPPORT..."
+                            className="bg-transparent border-none text-[9px] placeholder:text-white/50 focus:outline-none focus:ring-0 text-white w-16 sm:w-20 font-black uppercase p-0 select-text"
                           />
                           <button
                             type="submit"
@@ -443,10 +585,14 @@ export default function App() {
                           </button>
                         </>
                       )}
-                    </form>
+                    </motion.form>
 
-                    {/* Sound control button */}
-                    <button
+                    {/* Sound control button (Stagger 3) */}
+                    <motion.button
+                      initial={{ opacity: 0, scale: 0.75, rotate: -15 }}
+                      animate={{ opacity: 1, scale: 1, rotate: 0 }}
+                      exit={{ opacity: 0, scale: 0.75, rotate: -15 }}
+                      transition={{ type: 'spring', damping: 18, stiffness: 220, delay: 0.18 }}
                       onClick={(e) => {
                         e.preventDefault();
                         e.stopPropagation();
@@ -460,8 +606,8 @@ export default function App() {
                       ) : (
                         <Volume2 className="h-4 w-4 text-white" />
                       )}
-                    </button>
-                  </motion.div>
+                    </motion.button>
+                  </div>
                 )}
               </AnimatePresence>
 

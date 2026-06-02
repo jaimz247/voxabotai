@@ -21,6 +21,8 @@ interface NavigationProps {
 export default function Navigation({ activeTab, setActiveTab, darkMode, setDarkMode, language, setLanguage }: NavigationProps) {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [logoLoadError, setLogoLoadError] = useState(false);
+  const [logoSrc, setLogoSrc] = useState('/logo-horizontal.svg');
+  const [verticalLogoSrc, setVerticalLogoSrc] = useState('/logo-vertical.svg');
   const [searchQuery, setSearchQuery] = useState('');
   const [isSearchFocused, setIsSearchFocused] = useState(false);
   const searchContainerRef = useRef<HTMLDivElement>(null);
@@ -32,7 +34,6 @@ export default function Navigation({ activeTab, setActiveTab, darkMode, setDarkM
     { label: t.clinic, id: 'clinic-front-desk' as ActiveTab },
     { label: t.lab, id: 'lab-assistant' as ActiveTab },
     { label: t.howItWorks, id: 'how-it-works' as ActiveTab },
-    { label: language === 'fr' ? 'Suivis' : language === 'es' ? 'Seguimiento' : 'Staff Dashboard', id: 'staff-dashboard' as ActiveTab },
     { label: language === 'fr' ? 'Portail Patient' : language === 'es' ? 'Portal Paciente' : 'Patient Portal', id: 'patient-portal' as ActiveTab },
   ];
 
@@ -216,10 +217,24 @@ export default function Navigation({ activeTab, setActiveTab, darkMode, setDarkM
           >
             {!logoLoadError ? (
               <img 
-                src="/logo-horizontal.svg" 
+                src={logoSrc} 
                 alt="VOXABOT" 
-                onError={() => setLogoLoadError(true)}
-                className="h-8 md:h-9 w-auto object-contain block dark:opacity-90 dark:brightness-110"
+                onError={(e) => {
+                  console.error(`[Navigation Logo Diagnostic] Failed to load logo from source: "${logoSrc}". Target details:`, {
+                    src: e.currentTarget.src,
+                    naturalWidth: e.currentTarget.naturalWidth,
+                    naturalHeight: e.currentTarget.naturalHeight
+                  });
+                  if (logoSrc === '/logo-horizontal.svg') {
+                    // Try alternate favicon
+                    console.log('[Navigation Logo Diagnostic] Attempting alternate logo path "/favicon.svg"');
+                    setLogoSrc('/favicon.svg');
+                  } else {
+                    console.warn('[Navigation Logo Diagnostic] All logo sources failed. Rendering text-based logo fallback.');
+                    setLogoLoadError(true);
+                  }
+                }}
+                className="h-10 md:h-12 w-auto object-contain block dark:opacity-90 dark:brightness-110"
               />
             ) : (
               <>
@@ -356,10 +371,18 @@ export default function Navigation({ activeTab, setActiveTab, darkMode, setDarkM
                 <div className="flex items-center justify-between px-6 py-5 border-b border-black/5 dark:border-white/10 shrink-0">
                   <div className="flex items-center gap-2">
                     <img 
-                      src="/logo-vertical.svg" 
+                      src={verticalLogoSrc} 
                       alt="VB" 
-                      onError={(e) => { e.currentTarget.style.display = 'none'; }}
-                      className="h-7 w-7 object-contain animate-pulse"
+                      onError={(e) => { 
+                        console.error(`[Navigation Vertical Logo Diagnostic] Failed to load from "${verticalLogoSrc}"`);
+                        if (verticalLogoSrc === '/logo-vertical.svg') {
+                          console.log('[Navigation Vertical Logo Diagnostic] Trying "/favicon.svg" as fallback');
+                          setVerticalLogoSrc('/favicon.svg');
+                        } else {
+                          e.currentTarget.style.display = 'none';
+                        }
+                      }}
+                      className="h-9 w-9 object-contain animate-pulse"
                     />
                     <span className="font-display text-sm font-[900] tracking-widest text-slate-900 dark:text-white uppercase">
                       VOXABOT

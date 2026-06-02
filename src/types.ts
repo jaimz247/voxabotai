@@ -16,6 +16,8 @@ export interface DemoSubmission {
   location: string;
   mainChallenge: string;
   timestamp: string;
+  scheduledDate?: string;
+  scheduledTime?: string;
 }
 
 export interface FAQItem {
