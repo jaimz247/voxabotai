@@ -55,6 +55,26 @@ export default function App() {
   const [quickMessage, setQuickMessage] = useState('');
   const [showMessageSuccess, setShowMessageSuccess] = useState(false);
   const [faqSearchQuery, setFaqSearchQuery] = useState('');
+  const [isFaqFiltering, setIsFaqFiltering] = useState(false);
+  const [windowWidth, setWindowWidth] = useState(typeof window !== 'undefined' ? window.innerWidth : 1200);
+
+  useEffect(() => {
+    const handleResize = () => setWindowWidth(window.innerWidth);
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+
+  useEffect(() => {
+    if (faqSearchQuery.trim() !== '') {
+      setIsFaqFiltering(true);
+      const timer = setTimeout(() => {
+        setIsFaqFiltering(false);
+      }, 450);
+      return () => clearTimeout(timer);
+    } else {
+      setIsFaqFiltering(false);
+    }
+  }, [faqSearchQuery]);
 
   const filteredClinicalFaqs = faqSearchQuery.trim() === ''
     ? clinicalFaqsList.filter(faq => ['faq-1', 'faq-4', 'faq-6'].includes(faq.id))
@@ -286,27 +306,45 @@ export default function App() {
 
               {/* Dynamic FAQ Search Bar */}
               <div 
-                className="bg-black/5 dark:bg-white/5 border border-black/5 dark:border-white/5 rounded-xl px-2.5 py-2 flex items-center gap-2"
+                className="relative bg-black/5 dark:bg-white/5 border border-black/5 dark:border-white/5 rounded-xl px-2.5 py-2 flex flex-col gap-1 overflow-hidden"
                 onClick={(e) => e.stopPropagation()}
                 onKeyDown={(e) => e.stopPropagation()}
               >
-                <Search className="h-3.5 w-3.5 text-slate-400 shrink-0" />
-                <input
-                  type="text"
-                  value={faqSearchQuery}
-                  onChange={(e) => setFaqSearchQuery(e.target.value)}
-                  placeholder="Search clinical FAQs..."
-                  className="bg-transparent border-none outline-none text-xs text-slate-800 dark:text-white placeholder:text-slate-450 p-0 focus:outline-none focus:ring-0 w-full font-medium"
-                />
-                {faqSearchQuery && (
-                  <button
-                    onClick={() => setFaqSearchQuery('')}
-                    title="Clear search"
-                    className="p-0.5 rounded-full hover:bg-black/10 dark:hover:bg-white/10 text-slate-400 hover:text-slate-600 dark:hover:text-white transition-colors"
-                  >
-                    <X className="h-3 w-3" />
-                  </button>
-                )}
+                <div className="flex items-center gap-2">
+                  {isFaqFiltering ? (
+                    <span className="h-3.5 w-3.5 border-2 border-[#0052FF] border-t-transparent rounded-full animate-spin shrink-0" />
+                  ) : (
+                    <Search className="h-3.5 w-3.5 text-slate-400 shrink-0" />
+                  )}
+                  <input
+                    type="text"
+                    value={faqSearchQuery}
+                    onChange={(e) => setFaqSearchQuery(e.target.value)}
+                    placeholder="Search clinical FAQs..."
+                    className="bg-transparent border-none outline-none text-xs text-slate-800 dark:text-white placeholder:text-slate-450 p-0 focus:outline-none focus:ring-0 w-full font-medium"
+                  />
+                  {faqSearchQuery && (
+                    <button
+                      onClick={() => setFaqSearchQuery('')}
+                      title="Clear search"
+                      className="p-0.5 rounded-full hover:bg-black/10 dark:hover:bg-white/10 text-slate-400 hover:text-slate-600 dark:hover:text-white transition-colors"
+                    >
+                      <X className="h-3 w-3" />
+                    </button>
+                  )}
+                </div>
+                {/* Horizontal Progress Bar */}
+                <AnimatePresence>
+                  {isFaqFiltering && (
+                    <motion.div
+                      initial={{ scaleX: 0, opacity: 0 }}
+                      animate={{ scaleX: 1, opacity: 1 }}
+                      exit={{ scaleX: 0, opacity: 0 }}
+                      transition={{ duration: 0.35, ease: "easeInOut" }}
+                      className="absolute bottom-0 left-0 right-0 h-0.5 bg-gradient-to-r from-blue-500 via-[#0052FF]/70 to-blue-400 origin-left"
+                    />
+                  )}
+                </AnimatePresence>
               </div>
 
               {/* Pulse Speed Selector (Clinic Operating Status Indicator) */}
@@ -344,29 +382,46 @@ export default function App() {
                   <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider">
                     {faqSearchQuery.trim() === '' ? 'Popular Clinic FAQs' : 'Matching Clinical FAQs'}
                   </span>
-                  {faqSearchQuery.trim() !== '' && (
-                    <span className="text-[9px] font-black text-[#0052FF] uppercase tracking-widest bg-blue-50 dark:bg-blue-950/40 px-1.5 py-0.5 rounded-full">
-                      {filteredClinicalFaqs.length} Found
-                    </span>
-                  )}
+                  <span className="text-[9.5px] font-black text-[#0052FF] bg-blue-500/10 dark:bg-blue-500/20 px-2 py-0.5 rounded-full ring-1 ring-blue-500/10 select-none transition-all duration-300 flex items-center gap-1.5">
+                    {isFaqFiltering ? (
+                      <span className="h-1.5 w-1.5 rounded-full bg-blue-500 animate-ping inline-block" />
+                    ) : null}
+                    <span>{filteredClinicalFaqs.length} {filteredClinicalFaqs.length === 1 ? 'Result' : 'Results'}</span>
+                  </span>
                 </div>
                 <div className="flex flex-col gap-1.5 max-h-36 overflow-y-auto pr-0.5 scrollbar-thin">
-                  {filteredClinicalFaqs.length > 0 ? (
-                    filteredClinicalFaqs.map((faq) => (
-                      <button
-                        key={faq.id}
-                        onClick={() => handleQuickFaqClick(faq.id)}
-                        className="w-full text-left p-2 rounded-lg bg-black/5 dark:bg-white/5 hover:bg-slate-50 dark:hover:bg-white/10 border border-black/5 dark:border-white/5 transition-all text-[11px] font-semibold text-slate-700 dark:text-slate-300 flex items-center justify-between group/faq cursor-pointer"
+                  <AnimatePresence mode="popLayout">
+                    {filteredClinicalFaqs.length > 0 ? (
+                      filteredClinicalFaqs.map((faq, idx) => (
+                        <motion.button
+                          key={faq.id}
+                          initial={{ opacity: 0, y: 15 }}
+                          animate={{ opacity: 1, y: 0 }}
+                          exit={{ opacity: 0, scale: 0.95 }}
+                          transition={{
+                            type: 'spring',
+                            stiffness: 280,
+                            damping: 22,
+                            delay: Math.min(idx * 0.04, 0.2)
+                          }}
+                          layout
+                          onClick={() => handleQuickFaqClick(faq.id)}
+                          className="w-full text-left p-2 rounded-lg bg-black/5 dark:bg-white/5 hover:bg-slate-50 dark:hover:bg-white/10 border border-black/5 dark:border-white/5 transition-colors text-[11px] font-semibold text-slate-700 dark:text-slate-300 flex items-center justify-between group/faq cursor-pointer"
+                        >
+                          <span className="line-clamp-2 pr-1">{faq.question}</span>
+                          <span className="text-[10px] text-[#0052FF] shrink-0 opacity-0 group-hover/faq:opacity-100 transition-opacity font-black select-none">→</span>
+                        </motion.button>
+                      ))
+                    ) : (
+                      <motion.div 
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        className="text-[10px] text-slate-400 dark:text-slate-500 py-3 text-center italic leading-relaxed"
                       >
-                        <span className="line-clamp-2 pr-1">{faq.question}</span>
-                        <span className="text-[10px] text-[#0052FF] shrink-0 opacity-0 group-hover/faq:opacity-100 transition-opacity font-black select-none">→</span>
-                      </button>
-                    ))
-                  ) : (
-                    <div className="text-[10px] text-slate-400 dark:text-slate-500 py-3 text-center italic leading-relaxed">
-                      No matching FAQs found.<br />Try searching "WhatsApp" or "Result".
-                    </div>
-                  )}
+                        No matching FAQs found.<br />Try searching "WhatsApp" or "Result".
+                      </motion.div>
+                    )}
+                  </AnimatePresence>
                 </div>
               </div>
             </motion.div>
@@ -410,7 +465,7 @@ export default function App() {
             }}
             
             animate={{
-              width: isHovered ? 410 : 56,
+              width: isHovered ? Math.min(windowWidth - 32, 410) : 56,
               scale: showFloatingButton ? 1 : 0,
               opacity: showFloatingButton ? 1 : 0,
               boxShadow: isHovered 

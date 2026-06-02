@@ -172,14 +172,27 @@ export default function HomeView({ setActiveTab, language }: HomeViewProps) {
               <span>{t.bookDemoBtn}</span>
               <ArrowRight className="h-4 w-4 shrink-0" />
             </button>
-            <button
-              onClick={handleCTAWhatsAppClick}
+            <a
+              href="https://wa.me/2348145956772"
+              target="_blank"
+              rel="noopener noreferrer"
               className="inline-flex items-center gap-2 rounded-full border border-black/15 bg-white hover:bg-slate-50 px-8 py-5 text-xs font-black uppercase tracking-tighter text-[#1A1A1A] btn-heavy transition-all cursor-pointer w-full sm:w-auto text-center justify-center shadow-sm hover:scale-105 active:scale-95"
               id="hero-whatsapp-demo-btn"
             >
               <MessageSquare className="h-4 w-4 text-[#0052FF] shrink-0" />
               <span>{t.whatsappDemoBtn}</span>
-            </button>
+            </a>
+          </div>
+
+          {/* WhatsApp Agent Live Call & Message Announcement */}
+          <div className="flex items-center justify-center pt-1 pb-2">
+            <p className="text-[11px] font-bold text-[#0052FF] uppercase tracking-wider flex items-center justify-center gap-2 bg-[#0052FF]/5 px-4.5 py-2.5 rounded-full border border-[#0052FF]/10 text-center max-w-2xl">
+              <span className="flex h-2.5 w-2.5 relative shrink-0">
+                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+                <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-emerald-500"></span>
+              </span>
+              <span>Our Live WhatsApp Agent is active: Text or Place a WhatsApp Voice Call directly to <a href="https://wa.me/2348145956772" className="underline hover:text-blue-700 font-extrabold" target="_blank" rel="noopener noreferrer">+234 814 595 6772</a> for an instant demo!</span>
+            </p>
           </div>
 
           {/* Brand Stats Strip */}

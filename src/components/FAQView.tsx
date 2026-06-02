@@ -69,7 +69,7 @@ export default function FAQView() {
   ];
 
   return (
-    <section className="relative z-10 py-24 bg-brand-dark overflow-hidden">
+    <section className="relative z-10 py-24 bg-brand-dark dark:bg-[#0A0A0A] overflow-hidden">
       {/* Decorative Blur elements */}
       <div className="absolute top-1/2 left-0 -translate-y-1/2 -z-10 h-96 w-96 rounded-full bg-emerald-500/5 blur-3xl opacity-60"></div>
 
@@ -77,14 +77,14 @@ export default function FAQView() {
         
         {/* Header Section */}
         <div className="text-center space-y-4 mb-16">
-          <div className="inline-flex items-center gap-1.5 rounded-full border border-emerald-500/30 bg-emerald-950/40 px-3.5 py-1.5 text-xs font-semibold text-emerald-400 uppercase tracking-widest leading-none">
-            <HelpCircle className="h-3.5 w-3.5 leading-none shrink-0" />
+          <div className="inline-flex items-center gap-1.5 rounded-full border border-emerald-500/15 dark:border-emerald-500/30 bg-emerald-50 dark:bg-emerald-950/40 px-3.5 py-1.5 text-xs font-semibold text-emerald-700 dark:text-emerald-400 uppercase tracking-widest leading-none">
+            <HelpCircle className="h-3.5 w-3.5 leading-none shrink-0 text-emerald-650 dark:text-emerald-400" />
             <span>Operational FAQ</span>
           </div>
-          <h2 className="text-3xl sm:text-4xl font-black text-white uppercase leading-[0.95] heading-inter-heavy">
+          <h2 className="text-3xl sm:text-4xl font-black text-slate-950 dark:text-white uppercase leading-[0.95] heading-inter-heavy">
             Frequently Asked Questions
           </h2>
-          <p className="text-slate-400 max-w-xl mx-auto text-sm sm:text-base leading-relaxed">
+          <p className="text-slate-600 dark:text-slate-400 max-w-xl mx-auto text-sm sm:text-base leading-relaxed font-semibold">
             Get quick answers on how Voxabot AI seamlessly operates alongside clinical staff, maintains compliance, and integrates into healthcare workflows.
           </p>
         </div>
@@ -96,7 +96,7 @@ export default function FAQView() {
             return (
               <div
                 key={faq.id}
-                className="group rounded-2xl border border-white/5 bg-slate-900/40 hover:bg-slate-900/70 hover:border-white/10 transition-all overflow-hidden"
+                className="group rounded-2xl border border-black/5 dark:border-white/5 bg-white dark:bg-slate-900/40 hover:bg-slate-50 dark:hover:bg-slate-900/70 hover:border-black/10 dark:hover:border-white/10 transition-all overflow-hidden shadow-sm dark:shadow-none"
               >
                 <button
                   type="button"
@@ -104,10 +104,10 @@ export default function FAQView() {
                   className="flex w-full items-center justify-between px-6 py-5 text-left cursor-pointer select-none"
                   id={`faq-btn-${faq.id}`}
                 >
-                  <span className="font-display text-base font-semibold text-slate-100 group-hover:text-white transition-colors pr-4">
+                  <span className="font-display text-base font-semibold text-slate-800 dark:text-slate-100 group-hover:text-slate-950 group-hover:dark:text-white transition-colors pr-4">
                     {faq.question}
                   </span>
-                  <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-lg bg-white/5 group-hover:bg-white/10 text-slate-400 group-hover:text-emerald-400 transition-all">
+                  <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-lg bg-black/5 dark:bg-white/5 group-hover:bg-black/10 dark:group-hover:bg-white/10 text-slate-500 dark:text-slate-400 group-hover:text-emerald-600 dark:group-hover:text-emerald-400 transition-all">
                     {isOpen ? <Minus className="h-4 w-4" /> : <Plus className="h-4 w-4" />}
                   </span>
                 </button>
@@ -120,8 +120,8 @@ export default function FAQView() {
                       exit={{ height: 0, opacity: 0 }}
                       transition={{ duration: 0.25, ease: 'easeOut' }}
                     >
-                      <div className="border-t border-white/5 px-6 pb-5 pt-4">
-                        <p className="text-sm text-slate-400 leading-relaxed max-w-3xl">
+                      <div className="border-t border-black/5 dark:border-white/5 px-6 pb-5 pt-4">
+                        <p className="text-sm text-slate-655 dark:text-slate-400 leading-relaxed max-w-3xl">
                           {faq.answer}
                         </p>
                       </div>

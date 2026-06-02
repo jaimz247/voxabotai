@@ -201,7 +201,7 @@ export default function Navigation({ activeTab, setActiveTab, darkMode, setDarkM
           </span>
           <span className="font-bold">Voxabot Network Status: Live & Operational</span>
           <span className="hidden md:inline text-white/40">•</span>
-          <span className="hidden md:inline text-white/80">Supporting WhatsApp calls, automated SMS alerts & clinic database workflows.</span>
+          <span className="hidden md:inline text-white/80">WhatsApp Agent Live at +234 814 595 6772 — It takes voice calls & responds to chat messages 24/7!</span>
         </span>
       </div>
 
